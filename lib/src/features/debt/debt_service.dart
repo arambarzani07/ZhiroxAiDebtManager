@@ -46,18 +46,43 @@ class DebtService {
   }
 
   Future<Map<String, dynamic>> createDebt(String customerId, Map<String, dynamic> body) {
+    final amount = body['amount'];
+    final currency = body['currency'];
+    final dueDate = body['due_date'];
+    final note = body['note'];
+    final debtCaseBody = <String, dynamic>{
+      if (amount != null) 'principal_amount': amount,
+      if (currency != null) 'currency': currency,
+      if (dueDate != null) 'due_at': dueDate,
+      if (note != null) 'description': note,
+    };
+    final loanBody = <String, dynamic>{
+      if (amount != null) 'total_amount': amount,
+      if (currency != null) 'currency': currency,
+      if (dueDate != null) 'due_date': dueDate,
+      if (note != null) 'notes': note,
+    };
     return _apiClient.postAny([
       MapEntry('/customers/$customerId/debt', body),
+      MapEntry('/customers/$customerId/debt', debtCaseBody),
       MapEntry('/customers/$customerId/debts', body),
+      MapEntry('/customers/$customerId/debts', loanBody),
       MapEntry('/debts', {'customer_id': customerId, ...body}),
+      MapEntry('/debts', {'customer_id': customerId, ...loanBody}),
     ]);
   }
 
   Future<Map<String, dynamic>> requestCorrection(String debtCaseId, Map<String, dynamic> body) {
+    final generic = <String, dynamic>{
+      if (body['reason'] != null) 'note': body['reason'],
+      if (body['note'] != null) 'description': body['note'],
+    };
     return _apiClient.postAny([
       MapEntry('/debt-cases/$debtCaseId/correction-request', body),
+      MapEntry('/debt-cases/$debtCaseId/correction-request', generic),
       MapEntry('/debt-cases/$debtCaseId/corrections', body),
       MapEntry('/debt-corrections', {'debt_case_id': debtCaseId, ...body}),
+      MapEntry('/debt-corrections', {'debt_case_id': debtCaseId, ...generic}),
     ]);
   }
 }
