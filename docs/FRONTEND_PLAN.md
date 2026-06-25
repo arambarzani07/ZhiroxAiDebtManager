@@ -20,6 +20,7 @@
 6. Kurdish Sorani RTL is the default UI direction.
 7. Production URL is centralized in `ApiConfig`.
 8. Defer the full build phase until the end. During implementation, continue feature-by-feature coding on `main`; run final build/test only after the planned frontend modules are complete or when a blocking compile issue must be resolved.
+9. Do not leave visible half-features in the app. Any feature that is not fully wired must stay hidden from the UI until it is completed.
 
 ## Frontend phases
 
@@ -31,7 +32,7 @@
 - Token persistence
 - Dashboard shell
 
-Status: started on main.
+Status: added on main.
 
 ### F2 — Customer Brain
 - Customer API service
@@ -50,7 +51,7 @@ Status: started on main.
 - Credit limit review screen
 - Duplicate review screen
 
-Status: F2 customer brain screens started on main.
+Status: customer brain screens added on main.
 
 ### F3 — Debt and Ledger
 - Debt API service
@@ -65,20 +66,18 @@ Status: F2 customer brain screens started on main.
 - Payment allocation view
 - Correction request screen
 
-Status: F3B debt case and payment entry screens started on main.
+Status: debt case and payment entry screens added on main.
 
 ### F4 — Payments and Receipts
 - Receipt API methods
 - Receipt screen
 - Receipt delivery log screen
 - Customer statement screen
-- Print/share placeholders
-- Receipt draft API method
 - Statement date and currency filters
 - Delivery status cards
-- Next: receipt screen final visual polish and export/share integration in F9
+- Receipt visual cleanup
 
-Status: F4B receipt filters and delivery cards started on main.
+Status: receipts, statements, filters, and delivery cards added on main. Visible incomplete buttons were removed.
 
 ### F5 — Cash Module
 - Open/close/lock cash session
@@ -114,4 +113,4 @@ Status: F4B receipt filters and delivery cards started on main.
 
 ## Current status
 
-F1 foundation, F2 customer brain screens, F3 debt/payment screens, F4A receipts/statement screens, and F4B statement filters/delivery cards have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
+F1 foundation, F2 customer brain screens, F3 debt/payment screens, and F4 receipt/statement screens have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
