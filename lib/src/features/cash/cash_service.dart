@@ -23,16 +23,32 @@ class CashService {
   }
 
   Future<Map<String, dynamic>> openSession(Map<String, dynamic> body) {
+    final amount = body['opening_balance'];
+    final currency = body['currency'];
+    final note = body['note'];
+    final altBody = <String, dynamic>{
+      if (amount != null) 'initial_balance': amount,
+      if (currency != null) 'currency': currency,
+      if (note != null) 'description': note,
+    };
     return _apiClient.postAny([
       MapEntry('/cash/sessions/open', body),
+      MapEntry('/cash/sessions/open', altBody),
       MapEntry('/cash/sessions', body),
       MapEntry('/cash-sessions/open', body),
     ]);
   }
 
   Future<Map<String, dynamic>> closeCurrentSession(Map<String, dynamic> body) {
+    final amount = body['closing_balance'];
+    final note = body['note'];
+    final altBody = <String, dynamic>{
+      if (amount != null) 'counted_cash': amount,
+      if (note != null) 'description': note,
+    };
     return _apiClient.postAny([
       MapEntry('/cash/sessions/current/close', body),
+      MapEntry('/cash/sessions/current/close', altBody),
       MapEntry('/cash/current-session/close', body),
       MapEntry('/cash-sessions/current/close', body),
     ]);
@@ -44,8 +60,15 @@ class CashService {
   }
 
   Future<Map<String, dynamic>> createHandover(Map<String, dynamic> body) {
+    final altBody = <String, dynamic>{
+      if (body['amount'] != null) 'cash_amount': body['amount'],
+      if (body['currency'] != null) 'currency': body['currency'],
+      if (body['receiver_user_id'] != null) 'to_user_id': body['receiver_user_id'],
+      if (body['note'] != null) 'description': body['note'],
+    };
     return _apiClient.postAny([
       MapEntry('/cash/handovers', body),
+      MapEntry('/cash/handovers', altBody),
       MapEntry('/cash-handovers', body),
     ]);
   }
@@ -56,8 +79,14 @@ class CashService {
   }
 
   Future<Map<String, dynamic>> createDiscrepancy(Map<String, dynamic> body) {
+    final altBody = <String, dynamic>{
+      if (body['amount'] != null) 'difference_amount': body['amount'],
+      if (body['currency'] != null) 'currency': body['currency'],
+      if (body['reason'] != null) 'note': body['reason'],
+    };
     return _apiClient.postAny([
       MapEntry('/cash/discrepancies', body),
+      MapEntry('/cash/discrepancies', altBody),
       MapEntry('/cash-discrepancies', body),
     ]);
   }
