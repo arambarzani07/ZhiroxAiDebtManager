@@ -9,6 +9,8 @@ class AuthService {
   final ApiClient _apiClient;
   static const _tokenKey = 'zhirox_auth_token';
 
+  ApiClient get apiClient => _apiClient;
+
   Future<String?> restoreToken() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(_tokenKey);
