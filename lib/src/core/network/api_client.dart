@@ -34,8 +34,16 @@ class ApiClient {
 
   Map<String, dynamic> decode(http.Response res) {
     final text = res.body.trim();
-    final data = text.isEmpty ? <String, dynamic>{} : jsonDecode(text) as Map<String, dynamic>;
+    final decoded = text.isEmpty ? <String, dynamic>{} : jsonDecode(text);
+    final data = decoded is Map<String, dynamic>
+        ? decoded
+        : decoded is Map
+            ? Map<String, dynamic>.from(decoded)
+            : decoded is List
+                ? <String, dynamic>{'data': decoded}
+                : <String, dynamic>{'data': decoded};
+
     if (res.statusCode >= 200 && res.statusCode < 300) return data;
-    throw Exception(data['message']?.toString() ?? 'API error ${res.statusCode}');
+    throw Exception(data['message']?.toString() ?? data['error']?.toString() ?? 'API error ${res.statusCode}');
   }
 }
