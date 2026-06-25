@@ -31,7 +31,21 @@ class PaymentService {
     return _listFrom(data);
   }
 
-  Future<Map<String, dynamic>> getCustomerStatement(String customerId) {
-    return _apiClient.get('/customers/$customerId/statement');
+  Future<Map<String, dynamic>> createReceiptDraft(String paymentId, Map<String, dynamic> body) {
+    return _apiClient.post('/payments/$paymentId/receipt-draft', body);
+  }
+
+  Future<Map<String, dynamic>> getCustomerStatement(
+    String customerId, {
+    String? fromDate,
+    String? toDate,
+    String? currency,
+  }) {
+    final query = <String>[];
+    if (fromDate != null && fromDate.trim().isNotEmpty) query.add('from=${Uri.encodeComponent(fromDate.trim())}');
+    if (toDate != null && toDate.trim().isNotEmpty) query.add('to=${Uri.encodeComponent(toDate.trim())}');
+    if (currency != null && currency.trim().isNotEmpty) query.add('currency=${Uri.encodeComponent(currency.trim())}');
+    final suffix = query.isEmpty ? '' : '?${query.join('&')}';
+    return _apiClient.get('/customers/$customerId/statement$suffix');
   }
 }
