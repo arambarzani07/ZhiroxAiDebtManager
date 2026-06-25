@@ -14,10 +14,20 @@ class PaymentService {
   }
 
   Future<Map<String, dynamic>> receivePayment(String customerId, Map<String, dynamic> body) {
+    final amount = body['amount'];
+    final currency = body['currency'];
+    final note = body['note'];
+    final altBody = <String, dynamic>{
+      if (amount != null) 'paid_amount': amount,
+      if (currency != null) 'currency': currency,
+      if (note != null) 'description': note,
+    };
     return _apiClient.postAny([
       MapEntry('/customers/$customerId/payment', body),
+      MapEntry('/customers/$customerId/payment', altBody),
       MapEntry('/customers/$customerId/payments', body),
       MapEntry('/payments', {'customer_id': customerId, ...body}),
+      MapEntry('/payments', {'customer_id': customerId, ...altBody}),
     ]);
   }
 
