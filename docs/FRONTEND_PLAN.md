@@ -81,10 +81,18 @@ Status: debt case and payment entry screens added on main.
 Status: receipts, statements, filters, and delivery cards added on main. Visible incomplete buttons were removed.
 
 ### F5 — Cash Module
-- Open/close/lock cash session
-- Handovers
-- Discrepancies
-- Reconciliation
+- Cash API service
+- Cash display helpers
+- Current cash session view
+- Cash sessions list
+- Open cash session screen
+- Close cash session screen
+- Cash handover screen
+- Cash discrepancy screen
+- Reconciliation action
+- Dashboard link to cash module
+
+Status: F5A cash module foundation added on main after quality gate audit.
 
 ### F6 — Reports and Manager Dashboard
 - Debt summary
@@ -114,4 +122,4 @@ Status: receipts, statements, filters, and delivery cards added on main. Visible
 
 ## Current status
 
-F1 foundation, F2 customer brain screens, F3 debt/payment screens, and F4 receipt/statement screens have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
+F1 foundation, F2 customer brain screens, F3 debt/payment screens, F4 receipt/statement screens, and F5A cash module foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
