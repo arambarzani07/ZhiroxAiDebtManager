@@ -35,12 +35,19 @@ class AuthService {
     required String password,
     required String marketCode,
   }) async {
-    final data = await _apiClient.post('/auth/login', {
-      'email': email.trim(),
-      'password': password,
-      'market_code': marketCode.trim(),
-    });
-    final token = data['token']?.toString();
+    final data = await _apiClient.postAny([
+      MapEntry('/auth/login', {
+        'email': email.trim(),
+        'password': password,
+        'market_code': marketCode.trim(),
+      }),
+      MapEntry('/login', {
+        'email': email.trim(),
+        'password': password,
+        'market_code': marketCode.trim(),
+      }),
+    ]);
+    final token = data['token']?.toString() ?? data['access_token']?.toString();
     if (token == null || token.isEmpty) {
       throw Exception('Token not returned from server');
     }
@@ -52,11 +59,21 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    final data = await _apiClient.post('/system-owner/auth/login', {
-      'email': email.trim(),
-      'password': password,
-    });
-    final token = data['token']?.toString();
+    final data = await _apiClient.postAny([
+      MapEntry('/system-owner/auth/login', {
+        'email': email.trim(),
+        'password': password,
+      }),
+      MapEntry('/platform/auth/login', {
+        'email': email.trim(),
+        'password': password,
+      }),
+      MapEntry('/owner/auth/login', {
+        'email': email.trim(),
+        'password': password,
+      }),
+    ]);
+    final token = data['token']?.toString() ?? data['access_token']?.toString();
     if (token == null || token.isEmpty) {
       throw Exception('Token not returned from server');
     }
@@ -65,8 +82,20 @@ class AuthService {
   }
 
   Future<void> logout() async {
+    final kind = await restoreSessionKind();
     try {
-      await _apiClient.post('/auth/logout', {});
+      if (kind == 'owner') {
+        await _apiClient.postAny([
+          const MapEntry('/system-owner/auth/logout', <String, dynamic>{}),
+          const MapEntry('/platform/auth/logout', <String, dynamic>{}),
+          const MapEntry('/auth/logout', <String, dynamic>{}),
+        ]);
+      } else {
+        await _apiClient.postAny([
+          const MapEntry('/auth/logout', <String, dynamic>{}),
+          const MapEntry('/logout', <String, dynamic>{}),
+        ]);
+      }
     } catch (_) {}
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenKey);
@@ -74,5 +103,5 @@ class AuthService {
     _apiClient.token = null;
   }
 
-  Future<Map<String, dynamic>> me() => _apiClient.get('/auth/me');
+  Future<Map<String, dynamic>> me() => _apiClient.getAny(['/auth/me', '/me']);
 }
