@@ -24,6 +24,8 @@ Before the build step, frontend service calls were reviewed against the expected
 16. Customer create and edit payloads support multiple name and phone field names.
 17. Customer action forms validate required fields before sending data.
 18. Optional customer action notes do not send empty strings.
+19. API client reads nested list envelopes from common response wrapper keys.
+20. Debt, payment, cash, report, Smart Center, and platform services use the shared list parser.
 
 ## Note
 
