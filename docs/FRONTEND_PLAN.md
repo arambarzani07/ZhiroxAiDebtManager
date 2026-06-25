@@ -95,14 +95,20 @@ Status: receipts, statements, filters, and delivery cards added on main. Visible
 Status: F5A cash module foundation added on main after quality gate audit.
 
 ### F6 — Reports and Manager Dashboard
-- Debt summary
-- Top debtors
-- Paid/unpaid
-- Cash reports
-- Employee activity
+- Reports API service
+- Report display helpers
+- Reports dashboard screen
+- Debt summary report
+- Top customers report
+- Payment status report
+- Cash report
+- Employee activity report
+- Dashboard link to reports module
+
+Status: F6A reports foundation added on main after quality gate audit.
 
 ### F7 — Notifications and AI
-- WhatsApp draft screens
+- WhatsApp message screens
 - Broadcasts
 - AI suggestions and approval review
 
@@ -122,4 +128,4 @@ Status: F5A cash module foundation added on main after quality gate audit.
 
 ## Current status
 
-F1 foundation, F2 customer brain screens, F3 debt/payment screens, F4 receipt/statement screens, and F5A cash module foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
+F1 foundation, F2 customer brain screens, F3 debt/payment screens, F4 receipt/statement screens, F5A cash module, and F6A reports foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
