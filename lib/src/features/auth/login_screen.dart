@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/api_config.dart';
 import '../dashboard/dashboard_widgets.dart';
 import '../platform_core/platform_login_screen.dart';
 import 'auth_service.dart';
@@ -16,9 +15,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final email = TextEditingController(text: 'admin@zhirox.test');
-  final password = TextEditingController(text: 'Admin@12345');
-  final marketCode = TextEditingController(text: ApiConfig.defaultMarketCode);
+  final email = TextEditingController();
+  final password = TextEditingController();
+  final marketCode = TextEditingController();
   bool loading = false;
   String? error;
 
@@ -31,6 +30,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> submit() async {
+    if (marketCode.text.trim().isEmpty || email.text.trim().isEmpty || password.text.trim().isEmpty) {
+      setState(() => error = 'کۆدی بازاڕ، ئیمەیڵ و وشەی نهێنی پێویستن');
+      return;
+    }
     setState(() {
       loading = true;
       error = null;
