@@ -108,9 +108,15 @@ Status: F5A cash module foundation added on main after quality gate audit.
 Status: F6A reports foundation added on main after quality gate audit.
 
 ### F7 — Notifications and AI
-- WhatsApp message screens
-- Broadcasts
-- AI suggestions and approval review
+- Intelligence API service
+- Intelligence display helpers
+- Smart Center dashboard screen
+- Broadcast message screen
+- AI suggestions screen
+- Approval review screen
+- Dashboard link to Smart Center
+
+Status: F7A Smart Center foundation added on main after quality gate audit.
 
 ### F8 — System Owner Panel
 - Separate auth flow
@@ -128,4 +134,4 @@ Status: F6A reports foundation added on main after quality gate audit.
 
 ## Current status
 
-F1 foundation, F2 customer brain screens, F3 debt/payment screens, F4 receipt/statement screens, F5A cash module, and F6A reports foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
+F1 foundation, F2 customer brain screens, F3 debt/payment screens, F4 receipt/statement screens, F5A cash module, F6A reports foundation, and F7A Smart Center foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
