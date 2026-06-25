@@ -55,7 +55,7 @@ class ApiClient {
         lastError = e;
       }
     }
-    throw lastError ?? const ApiException(404, 'No backend endpoint matched');
+    throw lastError ?? const ApiException(404, 'Endpoint ـی گونجاو لە backend نەدۆزرایەوە');
   }
 
   Future<Map<String, dynamic>> postAny(List<MapEntry<String, Map<String, dynamic>>> attempts) async {
@@ -68,7 +68,7 @@ class ApiClient {
         lastError = e;
       }
     }
-    throw lastError ?? const ApiException(404, 'No backend endpoint matched');
+    throw lastError ?? const ApiException(404, 'Endpoint ـی گونجاو لە backend نەدۆزرایەوە');
   }
 
   Future<Map<String, dynamic>> patchAny(List<MapEntry<String, Map<String, dynamic>>> attempts) async {
@@ -81,7 +81,7 @@ class ApiClient {
         lastError = e;
       }
     }
-    throw lastError ?? const ApiException(404, 'No backend endpoint matched');
+    throw lastError ?? const ApiException(404, 'Endpoint ـی گونجاو لە backend نەدۆزرایەوە');
   }
 
   List<Map<String, dynamic>> listFrom(Map<String, dynamic> data, List<String> keys) {
@@ -123,9 +123,9 @@ class ApiClient {
       final preview = text.length > 90 ? text.substring(0, 90) : text;
       final isHtml = preview.startsWith('<') || preview.toLowerCase().contains('<!doctype html');
       final message = isHtml
-          ? 'Backend returned an HTML page instead of JSON. This usually means this API endpoint does not exist or was redirected.'
-          : 'Backend returned a non-JSON response.';
-      throw ApiException(res.statusCode, '$message Status: ${res.statusCode}');
+          ? 'Backend وەڵامی HTML گەڕاندەوە نەک JSON؛ زۆرجار واتە endpoint ـەکە نییە یان redirect کراوە.'
+          : 'Backend وەڵامێکی JSON نەگەڕاندەوە.';
+      throw ApiException(res.statusCode, '$message کۆدی وەڵام: ${res.statusCode}');
     }
 
     final data = decoded is Map<String, dynamic>
@@ -142,6 +142,6 @@ class ApiClient {
     }
 
     if (res.statusCode >= 200 && res.statusCode < 300) return data;
-    throw ApiException(res.statusCode, data['message']?.toString() ?? data['error']?.toString() ?? 'API error ${res.statusCode}');
+    throw ApiException(res.statusCode, data['message']?.toString() ?? data['error']?.toString() ?? 'هەڵەی API ${res.statusCode}');
   }
 }
