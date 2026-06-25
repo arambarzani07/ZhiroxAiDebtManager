@@ -191,7 +191,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         title: 'زیادکردنی پەیوەندی',
                         fields: const [
                           CustomerActionField(keyName: 'phone', label: 'ژمارەی مۆبایل'),
-                          CustomerActionField(keyName: 'note', label: 'تێبینی', maxLines: 3),
+                          CustomerActionField(keyName: 'note', label: 'تێبینی', maxLines: 3, required: false),
                         ],
                         submit: (values) => widget.customerService.createContact(id, values),
                       ),
@@ -207,8 +207,8 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         title: 'زیادکردنی دەستەبەر',
                         fields: const [
                           CustomerActionField(keyName: 'full_name', label: 'ناوی تەواو'),
-                          CustomerActionField(keyName: 'phone', label: 'ژمارەی مۆبایل'),
-                          CustomerActionField(keyName: 'relationship', label: 'پەیوەندی'),
+                          CustomerActionField(keyName: 'phone', label: 'ژمارەی مۆبایل', required: false),
+                          CustomerActionField(keyName: 'relationship', label: 'پەیوەندی', required: false),
                         ],
                         submit: (values) => widget.customerService.createGuarantor(id, values),
                       ),
@@ -224,7 +224,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         title: 'زیادکردنی بەڵگە',
                         fields: const [
                           CustomerActionField(keyName: 'evidence_type', label: 'جۆری بەڵگە'),
-                          CustomerActionField(keyName: 'note', label: 'تێبینی', maxLines: 3),
+                          CustomerActionField(keyName: 'note', label: 'تێبینی', maxLines: 3, required: false),
                         ],
                         submit: (values) => widget.customerService.createEvidence(id, values),
                       ),
@@ -240,7 +240,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         title: 'گۆڕینی دۆخ',
                         fields: const [
                           CustomerActionField(keyName: 'new_status', label: 'دۆخی نوێ'),
-                          CustomerActionField(keyName: 'reason', label: 'هۆکار', maxLines: 3),
+                          CustomerActionField(keyName: 'reason', label: 'هۆکار', maxLines: 3, required: false),
                         ],
                         submit: (values) => widget.customerService.createStatus(id, values),
                       ),
