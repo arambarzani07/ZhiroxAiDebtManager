@@ -4,6 +4,7 @@ class CustomerService {
   CustomerService(this._apiClient);
 
   final ApiClient _apiClient;
+  ApiClient get apiClient => _apiClient;
 
   List<Map<String, dynamic>> _listFrom(Map<String, dynamic> data) {
     final raw = data['data'] ?? data['items'] ?? data['customers'] ?? data['records'] ?? [];
