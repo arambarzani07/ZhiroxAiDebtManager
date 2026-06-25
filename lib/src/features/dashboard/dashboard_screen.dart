@@ -6,6 +6,8 @@ import '../cash/cash_module_screen.dart';
 import '../cash/cash_service.dart';
 import '../customers/customer_list_screen.dart';
 import '../customers/customer_service.dart';
+import '../intelligence/intelligence_dashboard_screen.dart';
+import '../intelligence/intelligence_service.dart';
 import '../reports/report_service.dart';
 import '../reports/reports_dashboard_screen.dart';
 import 'dashboard_widgets.dart';
@@ -40,36 +42,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void openCustomers() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => CustomerListScreen(
-          customerService: CustomerService(widget.authService.apiClient),
-        ),
-      ),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (_) => CustomerListScreen(customerService: CustomerService(widget.authService.apiClient))));
   }
 
   void openCash() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => CashModuleScreen(
-          cashService: CashService(widget.authService.apiClient),
-        ),
-      ),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (_) => CashModuleScreen(cashService: CashService(widget.authService.apiClient))));
   }
 
   void openReports() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ReportsDashboardScreen(
-          reportService: ReportService(widget.authService.apiClient),
-        ),
-      ),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (_) => ReportsDashboardScreen(reportService: ReportService(widget.authService.apiClient))));
+  }
+
+  void openSmartCenter() {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => IntelligenceDashboardScreen(intelligenceService: IntelligenceService(widget.authService.apiClient))));
   }
 
   @override
@@ -92,23 +77,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               if (error != null) ZhiroxPanel(child: Text(error!, style: const TextStyle(color: Colors.redAccent))),
               if (profile != null) const ZhiroxPanel(child: Text('Login profile loaded ✅')),
               const SizedBox(height: 16),
-              FilledButton.icon(
-                onPressed: openCustomers,
-                icon: const Icon(Icons.people_alt_rounded),
-                label: const Text('کردنەوەی بەشی کڕیاران'),
-              ),
+              FilledButton.icon(onPressed: openCustomers, icon: const Icon(Icons.people_alt_rounded), label: const Text('کردنەوەی بەشی کڕیاران')),
               const SizedBox(height: 10),
-              FilledButton.icon(
-                onPressed: openCash,
-                icon: const Icon(Icons.payments_rounded),
-                label: const Text('کردنەوەی Cash Module'),
-              ),
+              FilledButton.icon(onPressed: openCash, icon: const Icon(Icons.payments_rounded), label: const Text('کردنەوەی Cash Module')),
               const SizedBox(height: 10),
-              FilledButton.icon(
-                onPressed: openReports,
-                icon: const Icon(Icons.query_stats_rounded),
-                label: const Text('کردنەوەی Reports'),
-              ),
+              FilledButton.icon(onPressed: openReports, icon: const Icon(Icons.query_stats_rounded), label: const Text('کردنەوەی Reports')),
+              const SizedBox(height: 10),
+              FilledButton.icon(onPressed: openSmartCenter, icon: const Icon(Icons.auto_awesome_rounded), label: const Text('کردنەوەی Smart Center')),
               const SizedBox(height: 16),
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -117,7 +92,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const MetricCard(title: 'کڕیاران', value: 'Customer Brain', subtitle: 'لیست، زیادکردن، پرۆفایل', icon: Icons.people_alt_rounded),
                     const MetricCard(title: 'قەرز', value: 'Ledger', subtitle: 'دەفتەری حساب source of truth ـە', icon: Icons.account_balance_wallet_rounded),
                     const MetricCard(title: 'پارەی نەقد', value: 'Cash', subtitle: 'Session، handover، discrepancy', icon: Icons.payments_rounded),
-                    const MetricCard(title: 'ڕاپۆرت', value: 'Reports', subtitle: 'قەرز، پارەدان، کاش، کارمەند', icon: Icons.query_stats_rounded),
+                    const MetricCard(title: 'Smart Center', value: 'Guarded', subtitle: 'پەیام، پێشنیار، پێداچوونەوە', icon: Icons.auto_awesome_rounded),
                   ];
                   if (narrow) {
                     return Column(children: cards.map((card) => Padding(padding: const EdgeInsets.only(bottom: 12), child: card)).toList());
