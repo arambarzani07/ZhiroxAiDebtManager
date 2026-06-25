@@ -4,6 +4,18 @@ import 'package:http/http.dart' as http;
 
 import '../config/api_config.dart';
 
+class ApiException implements Exception {
+  const ApiException(this.statusCode, this.message);
+
+  final int statusCode;
+  final String message;
+
+  bool get canTryNextEndpoint => statusCode == 404 || statusCode == 405;
+
+  @override
+  String toString() => message;
+}
+
 class ApiClient {
   ApiClient({http.Client? httpClient}) : _httpClient = httpClient ?? http.Client();
 
@@ -32,6 +44,45 @@ class ApiClient {
     return decode(res);
   }
 
+  Future<Map<String, dynamic>> getAny(List<String> paths) async {
+    ApiException? lastEndpointError;
+    for (final path in paths) {
+      try {
+        return await get(path);
+      } on ApiException catch (e) {
+        if (!e.canTryNextEndpoint) rethrow;
+        lastEndpointError = e;
+      }
+    }
+    throw lastEndpointError ?? const ApiException(404, 'No backend endpoint matched');
+  }
+
+  Future<Map<String, dynamic>> postAny(List<MapEntry<String, Map<String, dynamic>>> attempts) async {
+    ApiException? lastEndpointError;
+    for (final attempt in attempts) {
+      try {
+        return await post(attempt.key, attempt.value);
+      } on ApiException catch (e) {
+        if (!e.canTryNextEndpoint) rethrow;
+        lastEndpointError = e;
+      }
+    }
+    throw lastEndpointError ?? const ApiException(404, 'No backend endpoint matched');
+  }
+
+  Future<Map<String, dynamic>> patchAny(List<MapEntry<String, Map<String, dynamic>>> attempts) async {
+    ApiException? lastEndpointError;
+    for (final attempt in attempts) {
+      try {
+        return await patch(attempt.key, attempt.value);
+      } on ApiException catch (e) {
+        if (!e.canTryNextEndpoint) rethrow;
+        lastEndpointError = e;
+      }
+    }
+    throw lastEndpointError ?? const ApiException(404, 'No backend endpoint matched');
+  }
+
   Map<String, dynamic> decode(http.Response res) {
     final text = res.body.trim();
     final decoded = text.isEmpty ? <String, dynamic>{} : jsonDecode(text);
@@ -44,6 +95,6 @@ class ApiClient {
                 : <String, dynamic>{'data': decoded};
 
     if (res.statusCode >= 200 && res.statusCode < 300) return data;
-    throw Exception(data['message']?.toString() ?? data['error']?.toString() ?? 'API error ${res.statusCode}');
+    throw ApiException(res.statusCode, data['message']?.toString() ?? data['error']?.toString() ?? 'API error ${res.statusCode}');
   }
 }
