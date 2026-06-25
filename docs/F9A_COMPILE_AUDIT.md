@@ -14,9 +14,11 @@ This audit covers the Flutter frontend structure after F1 through F8A.
 - API response decoding supports object and list payloads.
 - API client supports endpoint fallback for route-name alignment.
 - API client supports nested list envelopes in common backend response wrappers.
+- API client now catches non-JSON backend responses and turns them into user-friendly API errors instead of raw JSON parse exceptions.
 - Customer, debt, payment, report, cash, Smart Center, and platform services were reviewed and aligned to backend route variants.
 - Netlify now has Flutter web build configuration and SPA redirect configuration.
 - Flutter web platform shell files are present under `web/`.
+- Customer Contact Health, Duplicate Review, and dynamic customer forms now use friendly error panels.
 - Each visible module entry opens a real screen or performs a wired action.
 
 ## API alignment file
