@@ -19,11 +19,12 @@ class CustomerActionFormScreen extends StatefulWidget {
 }
 
 class CustomerActionField {
-  const CustomerActionField({required this.keyName, required this.label, this.maxLines = 1});
+  const CustomerActionField({required this.keyName, required this.label, this.maxLines = 1, this.required = true});
 
   final String keyName;
   final String label;
   final int maxLines;
+  final bool required;
 }
 
 class _CustomerActionFormScreenState extends State<CustomerActionFormScreen> {
@@ -49,10 +50,18 @@ class _CustomerActionFormScreenState extends State<CustomerActionFormScreen> {
 
   Future<void> save() async {
     final values = <String, String>{};
-    controllers.forEach((key, controller) {
-      final value = controller.text.trim();
-      if (value.isNotEmpty) values[key] = value;
-    });
+    for (final field in widget.fields) {
+      final value = controllers[field.keyName]?.text.trim() ?? '';
+      if (field.required && value.isEmpty) {
+        setState(() => error = '${field.label} پێویستە');
+        return;
+      }
+      if (value.isNotEmpty) values[field.keyName] = value;
+    }
+    if (values.isEmpty) {
+      setState(() => error = 'هیچ زانیارییەک بۆ ناردن نییە');
+      return;
+    }
     setState(() {
       loading = true;
       error = null;
@@ -81,7 +90,7 @@ class _CustomerActionFormScreenState extends State<CustomerActionFormScreen> {
                   TextField(
                     controller: controllers[field.keyName],
                     maxLines: field.maxLines,
-                    decoration: InputDecoration(labelText: field.label),
+                    decoration: InputDecoration(labelText: field.required ? '${field.label} *' : field.label),
                   ),
                   const SizedBox(height: 14),
                 ],
