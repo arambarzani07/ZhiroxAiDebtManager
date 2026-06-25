@@ -10,8 +10,8 @@ class ApiException implements Exception {
   final int statusCode;
   final String message;
 
-  bool get canTryNextEndpoint => statusCode == 404 || statusCode == 405;
-  bool get canTryNextWrite => statusCode == 400 || statusCode == 404 || statusCode == 405 || statusCode == 422;
+  bool get canTryNextEndpoint => statusCode == 404 || statusCode == 405 || statusCode == 406;
+  bool get canTryNextWrite => statusCode == 400 || statusCode == 404 || statusCode == 405 || statusCode == 406 || statusCode == 422;
 
   @override
   String toString() => message;
@@ -116,7 +116,18 @@ class ApiClient {
 
   Map<String, dynamic> decode(http.Response res) {
     final text = res.body.trim();
-    final decoded = text.isEmpty ? <String, dynamic>{} : jsonDecode(text);
+    dynamic decoded;
+    try {
+      decoded = text.isEmpty ? <String, dynamic>{} : jsonDecode(text);
+    } on FormatException {
+      final preview = text.length > 90 ? text.substring(0, 90) : text;
+      final isHtml = preview.startsWith('<') || preview.toLowerCase().contains('<!doctype html');
+      final message = isHtml
+          ? 'Backend returned an HTML page instead of JSON. This usually means this API endpoint does not exist or was redirected.'
+          : 'Backend returned a non-JSON response.';
+      throw ApiException(res.statusCode, '$message Status: ${res.statusCode}');
+    }
+
     final data = decoded is Map<String, dynamic>
         ? decoded
         : decoded is Map
