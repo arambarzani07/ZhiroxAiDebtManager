@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/api_config.dart';
 import '../dashboard/dashboard_widgets.dart';
+import '../platform_core/platform_login_screen.dart';
 import 'auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key, required this.authService, required this.onLogin});
 
   final AuthService authService;
-  final VoidCallback onLogin;
+  final void Function(String sessionKind) onLogin;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -40,12 +41,19 @@ class _LoginScreenState extends State<LoginScreen> {
         password: password.text,
         marketCode: marketCode.text,
       );
-      widget.onLogin();
+      widget.onLogin('tenant');
     } catch (e) {
       setState(() => error = e.toString());
     } finally {
       if (mounted) setState(() => loading = false);
     }
+  }
+
+  void openPlatformLogin() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => PlatformLoginScreen(authService: widget.authService, onLogin: widget.onLogin)),
+    );
   }
 
   @override
@@ -80,6 +88,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         FilledButton(
                           onPressed: loading ? null : submit,
                           child: loading ? const CircularProgressIndicator() : const Text('چوونەژوورەوە'),
+                        ),
+                        const SizedBox(height: 10),
+                        OutlinedButton.icon(
+                          onPressed: openPlatformLogin,
+                          icon: const Icon(Icons.admin_panel_settings_rounded),
+                          label: const Text('Platform Panel'),
                         ),
                       ],
                     ),
