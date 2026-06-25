@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../dashboard/dashboard_widgets.dart';
+import '../debt/customer_debt_timeline_screen.dart';
+import '../debt/debt_service.dart';
+import '../debt/give_debt_screen.dart';
 import 'customer_action_form_screen.dart';
 import 'customer_contact_health_screen.dart';
 import 'customer_credit_limit_screen.dart';
@@ -32,6 +35,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
   }
 
   String get id => customerId(widget.customer);
+  DebtService get debtService => DebtService(widget.customerService.apiClient);
 
   Future<void> load() async {
     if (id.isEmpty) {
@@ -83,6 +87,14 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
     Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
   }
 
+  Future<void> openGiveDebt() async {
+    final changed = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(builder: (_) => GiveDebtScreen(customer: widget.customer, debtService: debtService)),
+    );
+    if (changed == true) load();
+  }
+
   @override
   Widget build(BuildContext context) {
     final name = customerDisplayName(widget.customer);
@@ -122,6 +134,22 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                   ],
                 ),
               ),
+            const SizedBox(height: 16),
+            ZhiroxPanel(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text('Debt & Ledger', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 12),
+                  _ActionButton(
+                    title: 'قەرز و Ledger',
+                    icon: Icons.account_balance_wallet_rounded,
+                    onTap: () => openScreen(CustomerDebtTimelineScreen(customer: widget.customer, debtService: debtService)),
+                  ),
+                  _ActionButton(title: 'دانانی قەرزی نوێ', icon: Icons.add_card_rounded, onTap: openGiveDebt),
+                ],
+              ),
+            ),
             const SizedBox(height: 16),
             ZhiroxPanel(
               child: Column(
