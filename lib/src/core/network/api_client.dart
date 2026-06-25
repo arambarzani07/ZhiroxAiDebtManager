@@ -125,6 +125,11 @@ class ApiClient {
                 ? <String, dynamic>{'data': decoded}
                 : <String, dynamic>{'data': decoded};
 
+    if (data['data'] is Map) {
+      final found = _findList(data['data'], const ['items', 'records', 'customers']);
+      if (found != null) data['data'] = found;
+    }
+
     if (res.statusCode >= 200 && res.statusCode < 300) return data;
     throw ApiException(res.statusCode, data['message']?.toString() ?? data['error']?.toString() ?? 'API error ${res.statusCode}');
   }
