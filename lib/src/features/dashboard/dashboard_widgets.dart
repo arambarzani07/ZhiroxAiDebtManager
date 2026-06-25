@@ -149,3 +149,40 @@ class SectionTitle extends StatelessWidget {
     );
   }
 }
+
+class FriendlyErrorPanel extends StatelessWidget {
+  const FriendlyErrorPanel({super.key, required this.message, this.onRetry});
+
+  final String message;
+  final VoidCallback? onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return ZhiroxPanel(
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(color: AppTheme.danger.withOpacity(0.14), borderRadius: BorderRadius.circular(15)),
+                child: const Icon(Icons.warning_amber_rounded, color: AppTheme.danger),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(child: Text('پەیوەندی بە backend تەواو نەبوو', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900))),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(message, style: const TextStyle(color: AppTheme.muted, height: 1.45)),
+          if (onRetry != null) ...[
+            const SizedBox(height: 14),
+            OutlinedButton.icon(onPressed: onRetry, icon: const Icon(Icons.refresh_rounded), label: const Text('دووبارە تاقی بکەوە')),
+          ],
+        ],
+      ),
+    );
+  }
+}
