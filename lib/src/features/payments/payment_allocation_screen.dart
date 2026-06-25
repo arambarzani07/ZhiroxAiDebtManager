@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../dashboard/dashboard_widgets.dart';
 import 'payment_service.dart';
+import 'receipt_screen.dart';
 
 class PaymentAllocationScreen extends StatefulWidget {
   const PaymentAllocationScreen({super.key, required this.paymentId, required this.paymentService});
@@ -39,6 +40,13 @@ class _PaymentAllocationScreenState extends State<PaymentAllocationScreen> {
     }
   }
 
+  void openReceipt() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => ReceiptScreen(paymentId: widget.paymentId, paymentService: widget.paymentService)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +57,8 @@ class _PaymentAllocationScreenState extends State<PaymentAllocationScreen> {
           padding: const EdgeInsets.all(20),
           children: [
             const ZhiroxPanel(child: Text('ئەم بەشە پیشانی دەدات پارەدانەکە چۆن دابەش کراوە.')),
+            const SizedBox(height: 14),
+            FilledButton.icon(onPressed: openReceipt, icon: const Icon(Icons.receipt_long_rounded), label: const Text('کردنەوەی پسوولە')),
             const SizedBox(height: 14),
             if (loading) const Center(child: Padding(padding: EdgeInsets.all(32), child: CircularProgressIndicator())),
             if (error != null) ZhiroxPanel(child: Text(error!, style: const TextStyle(color: Colors.redAccent))),
