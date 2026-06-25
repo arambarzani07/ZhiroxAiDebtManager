@@ -64,15 +64,18 @@ Status: F2 customer brain screens started on main.
 - Receive payment entry
 - Payment allocation view
 - Correction request screen
-- Next: receipt screen, payment receipt delivery log, statement export placeholder
 
 Status: F3B debt case and payment entry screens started on main.
 
 ### F4 — Payments and Receipts
-- Receive payment flow
-- Payment allocations
+- Receipt API methods
 - Receipt screen
-- Receipt delivery logs
+- Receipt delivery log screen
+- Customer statement screen
+- Print/share placeholders
+- Next: receipt polish, statement filters, receipt share flow, delivery draft actions
+
+Status: F4A receipts and statement foundation started on main.
 
 ### F5 — Cash Module
 - Open/close/lock cash session
@@ -108,4 +111,4 @@ Status: F3B debt case and payment entry screens started on main.
 
 ## Current status
 
-F1 foundation, F2 customer brain screens, F3A debt and ledger foundation, and F3B payment/debt case screens have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
+F1 foundation, F2 customer brain screens, F3 debt/payment screens, and F4A receipts/statement screens have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
