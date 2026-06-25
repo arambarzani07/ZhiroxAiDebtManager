@@ -35,6 +35,27 @@ class CustomerService {
     return _apiClient.post('/customers', body);
   }
 
+  Future<Map<String, dynamic>> updateCustomer(String customerId, Map<String, dynamic> body) {
+    return _apiClient.patch('/customers/$customerId', body);
+  }
+
+  Future<Map<String, dynamic>> requestCreditLimitReview(String customerId, Map<String, dynamic> body) {
+    return _apiClient.post('/customers/$customerId/credit-limit-review', body);
+  }
+
+  Future<Map<String, dynamic>> getContactHealth(String customerId) {
+    return _apiClient.get('/customers/$customerId/contact-health');
+  }
+
+  Future<List<Map<String, dynamic>>> findDuplicates(String customerId) async {
+    final data = await _apiClient.get('/customers/$customerId/duplicates');
+    return _listFrom(data);
+  }
+
+  Future<Map<String, dynamic>> requestMerge(String customerId, Map<String, dynamic> body) {
+    return _apiClient.post('/customers/$customerId/merge-request', body);
+  }
+
   Future<List<Map<String, dynamic>>> listContacts(String customerId) async {
     final data = await _apiClient.get('/customers/$customerId/contacts');
     return _listFrom(data);
