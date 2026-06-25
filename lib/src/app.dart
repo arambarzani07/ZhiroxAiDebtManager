@@ -5,6 +5,8 @@ import 'core/theme/app_theme.dart';
 import 'features/auth/auth_service.dart';
 import 'features/auth/login_screen.dart';
 import 'features/dashboard/dashboard_screen.dart';
+import 'features/platform_core/platform_dashboard_screen.dart';
+import 'features/platform_core/platform_service.dart';
 
 class ZhiroxApp extends StatefulWidget {
   const ZhiroxApp({super.key});
@@ -18,6 +20,7 @@ class _ZhiroxAppState extends State<ZhiroxApp> {
   late final AuthService authService;
   bool loading = true;
   bool loggedIn = false;
+  String sessionKind = 'tenant';
 
   @override
   void initState() {
@@ -29,17 +32,25 @@ class _ZhiroxAppState extends State<ZhiroxApp> {
 
   Future<void> _restore() async {
     final token = await authService.restoreToken();
+    final kind = await authService.restoreSessionKind();
     setState(() {
       loggedIn = token != null && token.isNotEmpty;
+      sessionKind = kind;
       loading = false;
     });
   }
 
-  void _onLogin() => setState(() => loggedIn = true);
+  void _onLogin(String kind) => setState(() {
+        loggedIn = true;
+        sessionKind = kind;
+      });
 
   Future<void> _onLogout() async {
     await authService.logout();
-    setState(() => loggedIn = false);
+    setState(() {
+      loggedIn = false;
+      sessionKind = 'tenant';
+    });
   }
 
   @override
@@ -55,7 +66,9 @@ class _ZhiroxAppState extends State<ZhiroxApp> {
       home: loading
           ? const _BootScreen()
           : loggedIn
-              ? DashboardScreen(authService: authService, onLogout: _onLogout)
+              ? sessionKind == 'owner'
+                  ? PlatformDashboardScreen(platformService: PlatformService(apiClient), onLogout: _onLogout)
+                  : DashboardScreen(authService: authService, onLogout: _onLogout)
               : LoginScreen(authService: authService, onLogin: _onLogin),
     );
   }
