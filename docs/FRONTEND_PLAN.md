@@ -130,6 +130,10 @@ Status: F7A Smart Center foundation added on main after quality gate audit.
 Status: F8A platform panel foundation added on main after quality gate audit.
 
 ### F9 — Final build and release hardening
+- Static compile audit
+- Login security cleanup
+- Seed credential cleanup
+- Route/session audit
 - Flutter web/android/ios build
 - Compile fixes
 - Runtime API smoke test
@@ -138,6 +142,8 @@ Status: F8A platform panel foundation added on main after quality gate audit.
 - Customer/debt/payment/cash smoke test
 - Security cleanup and test credential rotation reminder
 
+Status: F9A static audit and login cleanup added on main. Full build still needs a Flutter SDK runner.
+
 ## Current status
 
-F1 foundation, F2 customer brain screens, F3 debt/payment screens, F4 receipt/statement screens, F5A cash module, F6A reports foundation, F7A Smart Center foundation, and F8A platform panel foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
+F1 through F8A are implemented. F9A static audit and security cleanup are recorded on `main`. Full Flutter build remains the next executable release-hardening step in a Flutter SDK environment.
