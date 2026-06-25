@@ -54,31 +54,34 @@ class _CashOpenSessionScreenState extends State<CashOpenSessionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('دەستپێکردنی Cash Session')),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          ZhiroxPanel(
-            child: Column(
-              children: [
-                TextField(controller: startBalance, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'بڕی سەرەتایی')),
-                const SizedBox(height: 14),
-                TextField(controller: currency, decoration: const InputDecoration(labelText: 'دراو')),
-                const SizedBox(height: 14),
-                TextField(controller: note, maxLines: 3, decoration: const InputDecoration(labelText: 'تێبینی')),
-                if (error != null) ...[
+      body: ZhiroxBackground(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 32),
+          children: [
+            const SectionTitle(title: 'Cash Session', subtitle: 'دەستپێکردنی سندووق بە بڕی سەرەتایی'),
+            ZhiroxPanel(
+              child: Column(
+                children: [
+                  TextField(controller: startBalance, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'بڕی سەرەتایی', prefixIcon: Icon(Icons.payments_rounded))),
                   const SizedBox(height: 14),
-                  Text(error!, style: const TextStyle(color: Colors.redAccent)),
+                  TextField(controller: currency, decoration: const InputDecoration(labelText: 'دراو', prefixIcon: Icon(Icons.account_balance_wallet_rounded))),
+                  const SizedBox(height: 14),
+                  TextField(controller: note, maxLines: 3, decoration: const InputDecoration(labelText: 'تێبینی', prefixIcon: Icon(Icons.edit_note_rounded))),
+                  if (error != null) ...[
+                    const SizedBox(height: 14),
+                    FriendlyErrorPanel(message: error!),
+                  ],
+                  const SizedBox(height: 22),
+                  FilledButton.icon(
+                    onPressed: loading ? null : save,
+                    icon: loading ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.play_arrow_rounded),
+                    label: const Text('دەستپێکردن'),
+                  ),
                 ],
-                const SizedBox(height: 22),
-                FilledButton.icon(
-                  onPressed: loading ? null : save,
-                  icon: loading ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.play_arrow_rounded),
-                  label: const Text('دەستپێکردن'),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
