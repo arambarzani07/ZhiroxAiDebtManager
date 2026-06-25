@@ -24,7 +24,7 @@ class _DebtCaseDetailScreenState extends State<DebtCaseDetailScreen> {
   bool loading = true;
   String? error;
 
-  String get debtCaseId => debtText(widget.debtCase, ['id', 'debt_case_id'], fallback: '');
+  String get debtCaseId => debtRecordId(widget.debtCase);
 
   @override
   void initState() {
