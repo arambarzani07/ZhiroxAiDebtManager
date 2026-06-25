@@ -64,35 +64,36 @@ class _GiveDebtScreenState extends State<GiveDebtScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('دانانی قەرز')),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          const ZhiroxPanel(child: Text('بڕی پارە وەک string دەنێردرێت بۆ پاراستنی دروستی حساب.')),
-          const SizedBox(height: 14),
-          ZhiroxPanel(
-            child: Column(
-              children: [
-                TextField(controller: amount, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'بڕی قەرز')),
-                const SizedBox(height: 14),
-                TextField(controller: currency, decoration: const InputDecoration(labelText: 'دراو')),
-                const SizedBox(height: 14),
-                TextField(controller: dueDate, decoration: const InputDecoration(labelText: 'بەرواری گەڕاندنەوە')),
-                const SizedBox(height: 14),
-                TextField(controller: note, maxLines: 3, decoration: const InputDecoration(labelText: 'تێبینی')),
-                if (error != null) ...[
+      body: ZhiroxBackground(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 32),
+          children: [
+            const SectionTitle(title: 'دانانی قەرز', subtitle: 'بڕی پارە وەک string دەنێردرێت بۆ پاراستنی حساب'),
+            ZhiroxPanel(
+              child: Column(
+                children: [
+                  TextField(controller: amount, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'بڕی قەرز', prefixIcon: Icon(Icons.add_card_rounded))),
                   const SizedBox(height: 14),
-                  Text(error!, style: const TextStyle(color: Colors.redAccent)),
+                  TextField(controller: currency, decoration: const InputDecoration(labelText: 'دراو', prefixIcon: Icon(Icons.payments_rounded))),
+                  const SizedBox(height: 14),
+                  TextField(controller: dueDate, decoration: const InputDecoration(labelText: 'بەرواری گەڕاندنەوە', prefixIcon: Icon(Icons.event_rounded))),
+                  const SizedBox(height: 14),
+                  TextField(controller: note, maxLines: 3, decoration: const InputDecoration(labelText: 'تێبینی', prefixIcon: Icon(Icons.edit_note_rounded))),
+                  if (error != null) ...[
+                    const SizedBox(height: 14),
+                    FriendlyErrorPanel(message: error!),
+                  ],
+                  const SizedBox(height: 22),
+                  FilledButton.icon(
+                    onPressed: loading ? null : save,
+                    icon: loading ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.add_card_rounded),
+                    label: const Text('پاشەکەوتکردنی قەرز'),
+                  ),
                 ],
-                const SizedBox(height: 22),
-                FilledButton.icon(
-                  onPressed: loading ? null : save,
-                  icon: loading ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.add_card_rounded),
-                  label: const Text('پاشەکەوتکردنی قەرز'),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
