@@ -6,11 +6,7 @@ class ReportService {
   final ApiClient _apiClient;
 
   List<Map<String, dynamic>> _listFrom(Map<String, dynamic> data) {
-    final raw = data['data'] ?? data['items'] ?? data['records'] ?? data['customers'] ?? data['debtors'] ?? data['employees'] ?? [];
-    if (raw is List) {
-      return raw.whereType<Map>().map((item) => Map<String, dynamic>.from(item)).toList();
-    }
-    return [];
+    return _apiClient.listFrom(data, ['data', 'items', 'records', 'customers', 'debtors', 'employees']);
   }
 
   Future<Map<String, dynamic>> getDebtSummary() {
