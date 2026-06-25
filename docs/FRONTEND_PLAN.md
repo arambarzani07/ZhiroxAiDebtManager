@@ -19,6 +19,7 @@
 5. Money must stay as string/Decimal-like values; do not use Dart double for financial writes.
 6. Kurdish Sorani RTL is the default UI direction.
 7. Production URL is centralized in `ApiConfig`.
+8. Defer the full build phase until the end. During implementation, continue feature-by-feature coding on `main`; run final build/test only after the planned frontend modules are complete or when a blocking compile issue must be resolved.
 
 ## Frontend phases
 
@@ -78,6 +79,15 @@ Status: F2A started on main.
 - Market/license management
 - Platform health
 
+### F9 — Final build and release hardening
+- Flutter web/android/ios build
+- Compile fixes
+- Runtime API smoke test
+- RTL visual check
+- Auth/session check
+- Customer/debt/payment/cash smoke test
+- Security cleanup and test credential rotation reminder
+
 ## Current status
 
-F1 foundation and F2A customer foundation have been added on `main`.
+F1 foundation and F2A customer foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
