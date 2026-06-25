@@ -119,9 +119,15 @@ Status: F6A reports foundation added on main after quality gate audit.
 Status: F7A Smart Center foundation added on main after quality gate audit.
 
 ### F8 — System Owner Panel
-- Separate auth flow
-- Market/license management
-- Platform health
+- Separate platform auth session
+- Platform login screen
+- Platform dashboard screen
+- Market management list
+- Plan management list
+- Platform health screen
+- Tenant-safe session routing
+
+Status: F8A platform panel foundation added on main after quality gate audit.
 
 ### F9 — Final build and release hardening
 - Flutter web/android/ios build
@@ -134,4 +140,4 @@ Status: F7A Smart Center foundation added on main after quality gate audit.
 
 ## Current status
 
-F1 foundation, F2 customer brain screens, F3 debt/payment screens, F4 receipt/statement screens, F5A cash module, F6A reports foundation, and F7A Smart Center foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
+F1 foundation, F2 customer brain screens, F3 debt/payment screens, F4 receipt/statement screens, F5A cash module, F6A reports foundation, F7A Smart Center foundation, and F8A platform panel foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
