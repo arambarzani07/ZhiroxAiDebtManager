@@ -16,10 +16,15 @@ Before the build step, frontend service calls were reviewed against the expected
 8. Test values were removed from visible login and config files.
 9. Frontend code does not send `market_id`.
 10. Money form values are submitted as text.
+11. Write calls now retry alternate payload field names on 400 and 422 as well as route mismatch statuses.
+12. Debt payloads support `amount`, `principal_amount`, and `total_amount` style fields.
+13. Payment payloads support `amount` and `paid_amount` style fields.
+14. Cash payloads support opening, closing, handover, and discrepancy field aliases.
+15. Auth accepts both `token` and `access_token` response keys.
 
 ## Note
 
-The primary known backend paths remain first. Extra route variants are tried only when the backend returns 404 or 405.
+The primary known backend paths remain first. Extra route or payload variants are tried only when the backend returns a retry-safe status.
 
 ## Next step
 
