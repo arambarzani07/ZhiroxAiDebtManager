@@ -84,6 +84,36 @@ class ApiClient {
     throw lastError ?? const ApiException(404, 'No backend endpoint matched');
   }
 
+  List<Map<String, dynamic>> listFrom(Map<String, dynamic> data, List<String> keys) {
+    final raw = _findList(data, keys);
+    if (raw == null) return [];
+    return raw.whereType<Map>().map((item) => Map<String, dynamic>.from(item)).toList();
+  }
+
+  List<dynamic>? _findList(dynamic value, List<String> keys) {
+    if (value is List) return value;
+    if (value is Map) {
+      final map = Map<String, dynamic>.from(value);
+      for (final key in keys) {
+        final nested = map[key];
+        if (nested is List) return nested;
+        if (nested is Map) {
+          final found = _findList(nested, keys);
+          if (found != null) return found;
+        }
+      }
+      for (final key in const ['data', 'result', 'payload']) {
+        final nested = map[key];
+        if (nested is List) return nested;
+        if (nested is Map) {
+          final found = _findList(nested, keys);
+          if (found != null) return found;
+        }
+      }
+    }
+    return null;
+  }
+
   Map<String, dynamic> decode(http.Response res) {
     final text = res.body.trim();
     final decoded = text.isEmpty ? <String, dynamic>{} : jsonDecode(text);
