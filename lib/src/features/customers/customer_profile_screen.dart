@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../dashboard/dashboard_widgets.dart';
 import 'customer_action_form_screen.dart';
+import 'customer_contact_health_screen.dart';
+import 'customer_credit_limit_screen.dart';
+import 'customer_duplicate_merge_screen.dart';
+import 'customer_edit_screen.dart';
 import 'customer_helpers.dart';
 import 'customer_records_screen.dart';
 import 'customer_service.dart';
@@ -67,6 +71,18 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
     );
   }
 
+  Future<void> openEdit() async {
+    final changed = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(builder: (_) => CustomerEditScreen(customer: widget.customer, customerService: widget.customerService)),
+    );
+    if (changed == true) load();
+  }
+
+  void openScreen(Widget screen) {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
+  }
+
   @override
   Widget build(BuildContext context) {
     final name = customerDisplayName(widget.customer);
@@ -113,6 +129,22 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 children: [
                   const Text('Customer Brain Advanced', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
+                  _ActionButton(title: 'دەستکاری کڕیار', icon: Icons.edit_rounded, onTap: openEdit),
+                  _ActionButton(
+                    title: 'Contact Health',
+                    icon: Icons.health_and_safety_rounded,
+                    onTap: () => openScreen(CustomerContactHealthScreen(customer: widget.customer, customerService: widget.customerService)),
+                  ),
+                  _ActionButton(
+                    title: 'Credit Limit Review',
+                    icon: Icons.price_check_rounded,
+                    onTap: () => openScreen(CustomerCreditLimitScreen(customer: widget.customer, customerService: widget.customerService)),
+                  ),
+                  _ActionButton(
+                    title: 'Duplicate Review',
+                    icon: Icons.compare_arrows_rounded,
+                    onTap: () => openScreen(CustomerDuplicateMergeScreen(customer: widget.customer, customerService: widget.customerService)),
+                  ),
                   _ActionButton(
                     title: 'پەیوەندییەکان',
                     icon: Icons.call_rounded,
