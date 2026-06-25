@@ -14,20 +14,32 @@ class PaymentService {
   }
 
   Future<Map<String, dynamic>> receivePayment(String customerId, Map<String, dynamic> body) {
-    return _apiClient.post('/customers/$customerId/payment', body);
+    return _apiClient.postAny([
+      MapEntry('/customers/$customerId/payment', body),
+      MapEntry('/customers/$customerId/payments', body),
+      MapEntry('/payments', {'customer_id': customerId, ...body}),
+    ]);
   }
 
   Future<List<Map<String, dynamic>>> listAllocations(String paymentId) async {
-    final data = await _apiClient.get('/payments/$paymentId/allocations');
+    final data = await _apiClient.getAny([
+      '/payments/$paymentId/allocations',
+      '/payment-allocations?payment_id=$paymentId',
+      '/payments/$paymentId/allocation',
+    ]);
     return _listFrom(data);
   }
 
   Future<Map<String, dynamic>> getReceipt(String paymentId) {
-    return _apiClient.get('/payments/$paymentId/receipt');
+    return _apiClient.getAny(['/payments/$paymentId/receipt', '/receipts/$paymentId', '/receipt?payment_id=$paymentId']);
   }
 
   Future<List<Map<String, dynamic>>> listReceiptDeliveryLogs(String paymentId) async {
-    final data = await _apiClient.get('/payments/$paymentId/receipt-delivery-logs');
+    final data = await _apiClient.getAny([
+      '/payments/$paymentId/receipt-delivery-logs',
+      '/receipt-delivery-logs?payment_id=$paymentId',
+      '/receipts/$paymentId/delivery-logs',
+    ]);
     return _listFrom(data);
   }
 
@@ -37,11 +49,15 @@ class PaymentService {
     String? toDate,
     String? currency,
   }) {
-    final query = <String>[];
+    final query = <String>['customer_id=${Uri.encodeComponent(customerId)}'];
     if (fromDate != null && fromDate.trim().isNotEmpty) query.add('from=${Uri.encodeComponent(fromDate.trim())}');
     if (toDate != null && toDate.trim().isNotEmpty) query.add('to=${Uri.encodeComponent(toDate.trim())}');
     if (currency != null && currency.trim().isNotEmpty) query.add('currency=${Uri.encodeComponent(currency.trim())}');
-    final suffix = query.isEmpty ? '' : '?${query.join('&')}';
-    return _apiClient.get('/customers/$customerId/statement$suffix');
+    final suffix = query.join('&');
+    return _apiClient.getAny([
+      '/customers/$customerId/statement?${suffix.replaceFirst('customer_id=${Uri.encodeComponent(customerId)}&', '')}',
+      '/statements/customer?$suffix',
+      '/customer-statements?$suffix',
+    ]);
   }
 }
