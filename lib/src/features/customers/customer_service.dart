@@ -28,36 +28,62 @@ class CustomerService {
     String? phone,
     String? note,
   }) async {
-    final primary = <String, dynamic>{
+    final kuBody = <String, dynamic>{
       'full_name_ku': fullNameKu.trim(),
       if (phone != null && phone.trim().isNotEmpty) 'primary_phone': phone.trim(),
       if (note != null && note.trim().isNotEmpty) 'note': note.trim(),
     };
-    final generic = <String, dynamic>{
+    final simpleBody = <String, dynamic>{
       'full_name': fullNameKu.trim(),
       if (phone != null && phone.trim().isNotEmpty) 'phone': phone.trim(),
       if (note != null && note.trim().isNotEmpty) 'note': note.trim(),
     };
+    final nameBody = <String, dynamic>{
+      'name': fullNameKu.trim(),
+      if (phone != null && phone.trim().isNotEmpty) 'phone_number': phone.trim(),
+      if (note != null && note.trim().isNotEmpty) 'notes': note.trim(),
+    };
     return _apiClient.postAny([
-      MapEntry('/customers', primary),
-      MapEntry('/customers', generic),
-      MapEntry('/customer', primary),
-      MapEntry('/customer', generic),
+      MapEntry('/customers', kuBody),
+      MapEntry('/customers', simpleBody),
+      MapEntry('/customers', nameBody),
+      MapEntry('/customer', kuBody),
+      MapEntry('/customer', simpleBody),
     ]);
   }
 
   Future<Map<String, dynamic>> updateCustomer(String customerId, Map<String, dynamic> body) {
+    final simpleBody = <String, dynamic>{
+      if (body['full_name_ku'] != null) 'full_name': body['full_name_ku'],
+      if (body['primary_phone'] != null) 'phone': body['primary_phone'],
+      if (body['note'] != null) 'note': body['note'],
+    };
+    final nameBody = <String, dynamic>{
+      if (body['full_name_ku'] != null) 'name': body['full_name_ku'],
+      if (body['primary_phone'] != null) 'phone_number': body['primary_phone'],
+      if (body['note'] != null) 'notes': body['note'],
+    };
     return _apiClient.patchAny([
       MapEntry('/customers/$customerId', body),
+      MapEntry('/customers/$customerId', simpleBody),
+      MapEntry('/customers/$customerId', nameBody),
       MapEntry('/customers/$customerId/profile', body),
       MapEntry('/customer/$customerId', body),
     ]);
   }
 
   Future<Map<String, dynamic>> requestCreditLimitReview(String customerId, Map<String, dynamic> body) {
+    final amount = body['requested_limit'];
+    final altBody = <String, dynamic>{
+      if (amount != null) 'credit_limit': amount,
+      if (body['currency'] != null) 'currency': body['currency'],
+      if (body['reason'] != null) 'note': body['reason'],
+    };
     return _apiClient.postAny([
       MapEntry('/customers/$customerId/credit-limit-review', body),
       MapEntry('/customers/$customerId/credit-limit/review', body),
+      MapEntry('/credit-limit-reviews', {'customer_id': customerId, ...body}),
+      MapEntry('/credit-limit-reviews', {'customer_id': customerId, ...altBody}),
     ]);
   }
 
@@ -83,10 +109,16 @@ class CustomerService {
   }
 
   Future<Map<String, dynamic>> createContact(String customerId, Map<String, dynamic> body) {
+    final altBody = <String, dynamic>{
+      if (body['phone'] != null) 'primary_phone': body['phone'],
+      if (body['note'] != null) 'note': body['note'],
+    };
     return _apiClient.postAny([
       MapEntry('/customers/$customerId/contacts', body),
+      MapEntry('/customers/$customerId/contacts', altBody),
       MapEntry('/customers/$customerId/contact', body),
       MapEntry('/customer-contacts', {'customer_id': customerId, ...body}),
+      MapEntry('/customer-contacts', {'customer_id': customerId, ...altBody}),
     ]);
   }
 
