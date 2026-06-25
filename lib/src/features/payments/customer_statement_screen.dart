@@ -15,6 +15,9 @@ class CustomerStatementScreen extends StatefulWidget {
 }
 
 class _CustomerStatementScreenState extends State<CustomerStatementScreen> {
+  final fromDate = TextEditingController();
+  final toDate = TextEditingController();
+  final currency = TextEditingController(text: 'IQD');
   Map<String, dynamic>? statement;
   bool loading = true;
   String? error;
@@ -23,6 +26,14 @@ class _CustomerStatementScreenState extends State<CustomerStatementScreen> {
   void initState() {
     super.initState();
     load();
+  }
+
+  @override
+  void dispose() {
+    fromDate.dispose();
+    toDate.dispose();
+    currency.dispose();
+    super.dispose();
   }
 
   Future<void> load() async {
@@ -39,7 +50,12 @@ class _CustomerStatementScreenState extends State<CustomerStatementScreen> {
       error = null;
     });
     try {
-      final data = await widget.paymentService.getCustomerStatement(id);
+      final data = await widget.paymentService.getCustomerStatement(
+        id,
+        fromDate: fromDate.text,
+        toDate: toDate.text,
+        currency: currency.text,
+      );
       setState(() => statement = data);
     } catch (e) {
       setState(() => error = e.toString());
@@ -52,7 +68,27 @@ class _CustomerStatementScreenState extends State<CustomerStatementScreen> {
 
   void showExportPlaceholder() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('PDF / Share export لە قۆناغی release hardening پەیوەست دەکرێت.')),
+      const SnackBar(content: Text('PDF / Share export لە قۆناغی کۆتایی پەیوەست دەکرێت.')),
+    );
+  }
+
+  Widget filterBox() {
+    return ZhiroxPanel(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(child: TextField(controller: fromDate, decoration: const InputDecoration(labelText: 'لە بەروار'))),
+              const SizedBox(width: 10),
+              Expanded(child: TextField(controller: toDate, decoration: const InputDecoration(labelText: 'تا بەروار'))),
+            ],
+          ),
+          const SizedBox(height: 12),
+          TextField(controller: currency, decoration: const InputDecoration(labelText: 'دراو')),
+          const SizedBox(height: 12),
+          FilledButton.icon(onPressed: load, icon: const Icon(Icons.filter_alt_rounded), label: const Text('جێبەجێکردنی فلتەر')),
+        ],
+      ),
     );
   }
 
@@ -75,6 +111,8 @@ class _CustomerStatementScreenState extends State<CustomerStatementScreen> {
                 ],
               ),
             ),
+            const SizedBox(height: 14),
+            filterBox(),
             const SizedBox(height: 14),
             if (loading) const Center(child: Padding(padding: EdgeInsets.all(32), child: CircularProgressIndicator())),
             if (error != null) ZhiroxPanel(child: Text(error!, style: const TextStyle(color: Colors.redAccent))),
