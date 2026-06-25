@@ -31,10 +31,6 @@ class PaymentService {
     return _listFrom(data);
   }
 
-  Future<Map<String, dynamic>> createReceiptDraft(String paymentId, Map<String, dynamic> body) {
-    return _apiClient.post('/payments/$paymentId/receipt-draft', body);
-  }
-
   Future<Map<String, dynamic>> getCustomerStatement(
     String customerId, {
     String? fromDate,
