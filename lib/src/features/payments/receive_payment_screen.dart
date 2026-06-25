@@ -30,6 +30,20 @@ class _ReceivePaymentScreenState extends State<ReceivePaymentScreen> {
     super.dispose();
   }
 
+  String paymentIdFrom(Map<String, dynamic> result) {
+    final direct = result['payment_id'] ?? result['id'] ?? result['uuid'] ?? result['_id'];
+    if (direct != null && direct.toString().trim().isNotEmpty) return direct.toString();
+    final data = result['data'];
+    if (data is Map) {
+      return paymentIdFrom(Map<String, dynamic>.from(data));
+    }
+    final payment = result['payment'];
+    if (payment is Map) {
+      return paymentIdFrom(Map<String, dynamic>.from(payment));
+    }
+    return '';
+  }
+
   Future<void> save() async {
     final id = customerId(widget.customer);
     if (id.isEmpty) {
@@ -51,8 +65,8 @@ class _ReceivePaymentScreenState extends State<ReceivePaymentScreen> {
         if (note.text.trim().isNotEmpty) 'note': note.text.trim(),
       });
       if (!mounted) return;
-      final paymentId = result['payment_id']?.toString() ?? result['id']?.toString();
-      if (paymentId != null && paymentId.isNotEmpty) {
+      final paymentId = paymentIdFrom(result);
+      if (paymentId.isNotEmpty) {
         await Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => PaymentAllocationScreen(paymentId: paymentId, paymentService: widget.paymentService)),
