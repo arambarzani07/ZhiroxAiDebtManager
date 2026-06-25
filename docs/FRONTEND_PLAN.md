@@ -45,16 +45,24 @@ Status: started on main.
 - Status history
 - Credit locks
 - Reusable customer action forms
-- Next: customer edit, contact health scoring UI, credit-limit review, duplicate/merge screens
+- Customer edit screen
+- Contact health screen
+- Credit limit review screen
+- Duplicate review screen
 
-Status: F2B advanced customer brain started on main.
+Status: F2 customer brain screens started on main.
 
 ### F3 — Debt and Ledger
-- Debt accounts
-- Debt cases
+- Debt API service
+- Debt display helpers
+- Customer debt timeline
+- Debt accounts screen content
+- Debt cases screen content
 - Give debt flow
-- Ledger read-only history
-- Reversal/correction request screens
+- Ledger read-only screen
+- Next: debt case detail, receive payment, payment allocation, correction request
+
+Status: F3A debt and ledger foundation started on main.
 
 ### F4 — Payments and Receipts
 - Receive payment flow
@@ -96,4 +104,4 @@ Status: F2B advanced customer brain started on main.
 
 ## Current status
 
-F1 foundation, F2A customer foundation, and F2B advanced customer brain entry screens have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
+F1 foundation, F2 customer brain screens, and F3A debt and ledger foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
