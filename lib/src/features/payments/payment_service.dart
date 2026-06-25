@@ -6,11 +6,7 @@ class PaymentService {
   final ApiClient _apiClient;
 
   List<Map<String, dynamic>> _listFrom(Map<String, dynamic> data) {
-    final raw = data['data'] ?? data['items'] ?? data['records'] ?? data['allocations'] ?? data['logs'] ?? [];
-    if (raw is List) {
-      return raw.whereType<Map>().map((item) => Map<String, dynamic>.from(item)).toList();
-    }
-    return [];
+    return _apiClient.listFrom(data, ['data', 'items', 'records', 'allocations', 'logs']);
   }
 
   Future<Map<String, dynamic>> receivePayment(String customerId, Map<String, dynamic> body) {
