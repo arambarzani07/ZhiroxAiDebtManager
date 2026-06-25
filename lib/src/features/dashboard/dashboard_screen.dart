@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/api_config.dart';
 import '../auth/auth_service.dart';
+import '../cash/cash_module_screen.dart';
+import '../cash/cash_service.dart';
 import '../customers/customer_list_screen.dart';
 import '../customers/customer_service.dart';
 import 'dashboard_widgets.dart';
@@ -46,6 +48,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  void openCash() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CashModuleScreen(
+          cashService: CashService(widget.authService.apiClient),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +84,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 icon: const Icon(Icons.people_alt_rounded),
                 label: const Text('کردنەوەی بەشی کڕیاران'),
               ),
+              const SizedBox(height: 10),
+              FilledButton.icon(
+                onPressed: openCash,
+                icon: const Icon(Icons.payments_rounded),
+                label: const Text('کردنەوەی Cash Module'),
+              ),
               const SizedBox(height: 16),
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -78,7 +97,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   final cards = [
                     const MetricCard(title: 'کڕیاران', value: 'Customer Brain', subtitle: 'لیست، زیادکردن، پرۆفایل', icon: Icons.people_alt_rounded),
                     const MetricCard(title: 'قەرز', value: 'Ledger', subtitle: 'دەفتەری حساب source of truth ـە', icon: Icons.account_balance_wallet_rounded),
-                    const MetricCard(title: 'پارەی نەقد', value: 'Cash', subtitle: 'Cash session و handover ئامادەیە', icon: Icons.payments_rounded),
+                    const MetricCard(title: 'پارەی نەقد', value: 'Cash', subtitle: 'Session، handover، discrepancy', icon: Icons.payments_rounded),
                     const MetricCard(title: 'AI', value: 'Guarded', subtitle: 'AI تەنها پێشنیار دەدات، جێبەجێ ناکات', icon: Icons.auto_awesome_rounded),
                   ];
                   if (narrow) {
