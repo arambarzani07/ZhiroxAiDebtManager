@@ -13,6 +13,8 @@ This audit covers the Flutter frontend structure after F1 through F8A.
 - Seeded market code was removed from `ApiConfig`.
 - Tenant and platform sessions are routed separately by `sessionKind`.
 - API response decoding supports object and list payloads.
+- API client now supports safe endpoint fallback for route-name alignment.
+- Customer, debt, payment, report, and cash services were reviewed and aligned to backend route variants.
 - Each visible module entry opens a real screen or performs a wired action.
 
 ## Build status
