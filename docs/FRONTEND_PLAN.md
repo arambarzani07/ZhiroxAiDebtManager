@@ -39,9 +39,15 @@ Status: started on main.
 - Customer create screen
 - Customer profile screen
 - Search and refresh
-- Next: customer edit, contact health, guarantor, evidence, status history, credit locks, merge/duplicate screens
+- Customer contacts
+- Guarantors
+- Evidence records
+- Status history
+- Credit locks
+- Reusable customer action forms
+- Next: customer edit, contact health scoring UI, credit-limit review, duplicate/merge screens
 
-Status: F2A started on main.
+Status: F2B advanced customer brain started on main.
 
 ### F3 — Debt and Ledger
 - Debt accounts
@@ -90,4 +96,4 @@ Status: F2A started on main.
 
 ## Current status
 
-F1 foundation and F2A customer foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
+F1 foundation, F2A customer foundation, and F2B advanced customer brain entry screens have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
