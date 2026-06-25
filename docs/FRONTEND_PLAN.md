@@ -73,9 +73,12 @@ Status: F3B debt case and payment entry screens started on main.
 - Receipt delivery log screen
 - Customer statement screen
 - Print/share placeholders
-- Next: receipt polish, statement filters, receipt share flow, delivery draft actions
+- Receipt draft API method
+- Statement date and currency filters
+- Delivery status cards
+- Next: receipt screen final visual polish and export/share integration in F9
 
-Status: F4A receipts and statement foundation started on main.
+Status: F4B receipt filters and delivery cards started on main.
 
 ### F5 — Cash Module
 - Open/close/lock cash session
@@ -111,4 +114,4 @@ Status: F4A receipts and statement foundation started on main.
 
 ## Current status
 
-F1 foundation, F2 customer brain screens, F3 debt/payment screens, and F4A receipts/statement screens have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
+F1 foundation, F2 customer brain screens, F3 debt/payment screens, F4A receipts/statement screens, and F4B statement filters/delivery cards have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
