@@ -21,6 +21,9 @@ Before the build step, frontend service calls were reviewed against the expected
 13. Payment payloads support `amount` and `paid_amount` style fields.
 14. Cash payloads support opening, closing, handover, and discrepancy field aliases.
 15. Auth accepts both `token` and `access_token` response keys.
+16. Customer create and edit payloads support multiple name and phone field names.
+17. Customer action forms validate required fields before sending data.
+18. Optional customer action notes do not send empty strings.
 
 ## Note
 
