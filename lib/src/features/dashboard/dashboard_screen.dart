@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/api_config.dart';
 import '../auth/auth_service.dart';
+import '../customers/customer_list_screen.dart';
+import '../customers/customer_service.dart';
 import 'dashboard_widgets.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -33,6 +35,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  void openCustomers() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CustomerListScreen(
+          customerService: CustomerService(widget.authService.apiClient),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,13 +64,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Text('پەیوەست بە: ${ApiConfig.productionApiBaseUrl}', style: const TextStyle(color: Colors.white54, fontSize: 12)),
               const SizedBox(height: 18),
               if (error != null) ZhiroxPanel(child: Text(error!, style: const TextStyle(color: Colors.redAccent))),
-              if (profile != null) ZhiroxPanel(child: Text('Login profile loaded ✅\n${profile.toString()}')),
+              if (profile != null) const ZhiroxPanel(child: Text('Login profile loaded ✅')),
+              const SizedBox(height: 16),
+              FilledButton.icon(
+                onPressed: openCustomers,
+                icon: const Icon(Icons.people_alt_rounded),
+                label: const Text('کردنەوەی بەشی کڕیاران'),
+              ),
               const SizedBox(height: 16),
               LayoutBuilder(
                 builder: (context, constraints) {
                   final narrow = constraints.maxWidth < 700;
                   final cards = [
-                    const MetricCard(title: 'کڕیاران', value: 'Live API', subtitle: 'Customer Brain بە API پەیوەست دەکرێت', icon: Icons.people_alt_rounded),
+                    const MetricCard(title: 'کڕیاران', value: 'Customer Brain', subtitle: 'لیست، زیادکردن، پرۆفایل', icon: Icons.people_alt_rounded),
                     const MetricCard(title: 'قەرز', value: 'Ledger', subtitle: 'دەفتەری حساب source of truth ـە', icon: Icons.account_balance_wallet_rounded),
                     const MetricCard(title: 'پارەی نەقد', value: 'Cash', subtitle: 'Cash session و handover ئامادەیە', icon: Icons.payments_rounded),
                     const MetricCard(title: 'AI', value: 'Guarded', subtitle: 'AI تەنها پێشنیار دەدات، جێبەجێ ناکات', icon: Icons.auto_awesome_rounded),
