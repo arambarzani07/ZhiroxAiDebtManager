@@ -27,6 +27,11 @@ class ApiClient {
     return decode(res);
   }
 
+  Future<Map<String, dynamic>> patch(String path, Map<String, dynamic> body) async {
+    final res = await _httpClient.patch(ApiConfig.apiUri(path), headers: headers(), body: jsonEncode(body));
+    return decode(res);
+  }
+
   Map<String, dynamic> decode(http.Response res) {
     final text = res.body.trim();
     final data = text.isEmpty ? <String, dynamic>{} : jsonDecode(text) as Map<String, dynamic>;
