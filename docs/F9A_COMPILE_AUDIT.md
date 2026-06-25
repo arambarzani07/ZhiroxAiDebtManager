@@ -13,7 +13,10 @@ This audit covers the Flutter frontend structure after F1 through F8A.
 - Tenant and platform sessions are routed separately by `sessionKind`.
 - API response decoding supports object and list payloads.
 - API client supports endpoint fallback for route-name alignment.
+- API client supports nested list envelopes in common backend response wrappers.
 - Customer, debt, payment, report, cash, Smart Center, and platform services were reviewed and aligned to backend route variants.
+- Netlify now has Flutter web build configuration and SPA redirect configuration.
+- Flutter web platform shell files are present under `web/`.
 - Each visible module entry opens a real screen or performs a wired action.
 
 ## API alignment file
@@ -22,10 +25,11 @@ See `docs/API_ALIGNMENT_AUDIT.md` for the pre-build API alignment audit.
 
 ## Build status
 
-The full Flutter build is still assigned to the final release-hardening step. This connector session can update and inspect repository files, but it does not provide a local Flutter SDK runtime. The build must be run in the project development environment or CI runner.
+The full Flutter build still needs a Flutter SDK runtime. This connector session can update and inspect repository files, but it does not provide a local Flutter SDK runtime. The build must be run in the project development environment, Netlify build runner, or CI runner.
 
 ## Remaining F9 work
 
+- Trigger a fresh Netlify deploy from the latest `main` commit.
 - Run `flutter pub get`.
 - Run `flutter analyze`.
 - Run `flutter build web`.
