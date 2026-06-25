@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../customers/customer_helpers.dart';
 import '../dashboard/dashboard_widgets.dart';
+import 'debt_case_detail_screen.dart';
 import 'debt_helpers.dart';
 import 'debt_service.dart';
 import 'give_debt_screen.dart';
@@ -71,21 +72,34 @@ class _CustomerDebtTimelineScreenState extends State<CustomerDebtTimelineScreen>
     );
   }
 
-  Widget itemCard(Map<String, dynamic> item) {
+  Future<void> openCase(Map<String, dynamic> debtCase) async {
+    final changed = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => DebtCaseDetailScreen(customer: widget.customer, debtCase: debtCase, debtService: widget.debtService),
+      ),
+    );
+    if (changed == true) load();
+  }
+
+  Widget itemCard(Map<String, dynamic> item, {VoidCallback? onTap}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: ZhiroxPanel(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(debtTitle(item), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 6),
-            Text('${debtAmount(item)} ${debtCurrency(item)}'),
-            const SizedBox(height: 6),
-            Chip(label: Text(debtStatus(item))),
-            const SizedBox(height: 8),
-            Text(item.toString(), style: const TextStyle(color: Colors.white54, fontSize: 12)),
-          ],
+        child: InkWell(
+          onTap: onTap,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(debtTitle(item), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 6),
+              Text('${debtAmount(item)} ${debtCurrency(item)}'),
+              const SizedBox(height: 6),
+              Chip(label: Text(debtStatus(item))),
+              const SizedBox(height: 8),
+              Text(item.toString(), style: const TextStyle(color: Colors.white54, fontSize: 12)),
+            ],
+          ),
         ),
       ),
     );
@@ -118,7 +132,7 @@ class _CustomerDebtTimelineScreenState extends State<CustomerDebtTimelineScreen>
               const Text('Debt Cases', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
               const SizedBox(height: 10),
               if (cases.isEmpty) const ZhiroxPanel(child: Text('هیچ case ـێکی قەرز نییە.')),
-              for (final debtCase in cases) itemCard(debtCase),
+              for (final debtCase in cases) itemCard(debtCase, onTap: () => openCase(debtCase)),
             ],
           ],
         ),
