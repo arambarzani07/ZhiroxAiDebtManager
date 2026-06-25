@@ -5,16 +5,20 @@ class CustomerService {
 
   final ApiClient _apiClient;
 
-  Future<List<Map<String, dynamic>>> listCustomers() async {
-    final data = await _apiClient.get('/customers');
-    final raw = data['data'] ?? data['customers'] ?? data['items'] ?? [];
+  List<Map<String, dynamic>> _listFrom(Map<String, dynamic> data) {
+    final raw = data['data'] ?? data['items'] ?? data['customers'] ?? data['records'] ?? [];
     if (raw is List) {
       return raw.whereType<Map>().map((item) => Map<String, dynamic>.from(item)).toList();
     }
     return [];
   }
 
-  Future<Map<String, dynamic>> getProfile(String customerId) async {
+  Future<List<Map<String, dynamic>>> listCustomers() async {
+    final data = await _apiClient.get('/customers');
+    return _listFrom(data);
+  }
+
+  Future<Map<String, dynamic>> getProfile(String customerId) {
     return _apiClient.get('/customers/$customerId/profile');
   }
 
@@ -29,5 +33,50 @@ class CustomerService {
       if (note != null && note.trim().isNotEmpty) 'note': note.trim(),
     };
     return _apiClient.post('/customers', body);
+  }
+
+  Future<List<Map<String, dynamic>>> listContacts(String customerId) async {
+    final data = await _apiClient.get('/customers/$customerId/contacts');
+    return _listFrom(data);
+  }
+
+  Future<Map<String, dynamic>> createContact(String customerId, Map<String, dynamic> body) {
+    return _apiClient.post('/customers/$customerId/contact', body);
+  }
+
+  Future<List<Map<String, dynamic>>> listGuarantors(String customerId) async {
+    final data = await _apiClient.get('/customers/$customerId/guarantors');
+    return _listFrom(data);
+  }
+
+  Future<Map<String, dynamic>> createGuarantor(String customerId, Map<String, dynamic> body) {
+    return _apiClient.post('/customers/$customerId/guarantor', body);
+  }
+
+  Future<List<Map<String, dynamic>>> listEvidence(String customerId) async {
+    final data = await _apiClient.get('/customers/$customerId/evidence');
+    return _listFrom(data);
+  }
+
+  Future<Map<String, dynamic>> createEvidence(String customerId, Map<String, dynamic> body) {
+    return _apiClient.post('/customers/$customerId/evidence', body);
+  }
+
+  Future<List<Map<String, dynamic>>> listStatusHistory(String customerId) async {
+    final data = await _apiClient.get('/customers/$customerId/status-history');
+    return _listFrom(data);
+  }
+
+  Future<Map<String, dynamic>> createStatus(String customerId, Map<String, dynamic> body) {
+    return _apiClient.post('/customers/$customerId/status', body);
+  }
+
+  Future<List<Map<String, dynamic>>> listCreditLocks(String customerId) async {
+    final data = await _apiClient.get('/customers/$customerId/credit-locks');
+    return _listFrom(data);
+  }
+
+  Future<Map<String, dynamic>> createCreditLock(String customerId, Map<String, dynamic> body) {
+    return _apiClient.post('/customers/$customerId/credit-lock', body);
   }
 }
