@@ -21,6 +21,7 @@
 7. Production URL is centralized in `ApiConfig`.
 8. Defer the full build phase until the end. During implementation, continue feature-by-feature coding on `main`; run final build/test only after the planned frontend modules are complete or when a blocking compile issue must be resolved.
 9. Do not leave visible half-features in the app. Any feature that is not fully wired must stay hidden from the UI until it is completed.
+10. Every stage must pass `docs/IMPLEMENTATION_QUALITY_GATE.md` before moving to the next stage.
 
 ## Frontend phases
 
