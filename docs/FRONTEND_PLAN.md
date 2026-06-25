@@ -60,9 +60,13 @@ Status: F2 customer brain screens started on main.
 - Debt cases screen content
 - Give debt flow
 - Ledger read-only screen
-- Next: debt case detail, receive payment, payment allocation, correction request
+- Debt case detail screen
+- Receive payment entry
+- Payment allocation view
+- Correction request screen
+- Next: receipt screen, payment receipt delivery log, statement export placeholder
 
-Status: F3A debt and ledger foundation started on main.
+Status: F3B debt case and payment entry screens started on main.
 
 ### F4 — Payments and Receipts
 - Receive payment flow
@@ -104,4 +108,4 @@ Status: F3A debt and ledger foundation started on main.
 
 ## Current status
 
-F1 foundation, F2 customer brain screens, and F3A debt and ledger foundation have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
+F1 foundation, F2 customer brain screens, F3A debt and ledger foundation, and F3B payment/debt case screens have been added on `main`. Build phase is intentionally deferred until the final release-hardening stage.
