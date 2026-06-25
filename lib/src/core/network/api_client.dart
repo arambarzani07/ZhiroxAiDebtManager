@@ -11,6 +11,7 @@ class ApiException implements Exception {
   final String message;
 
   bool get canTryNextEndpoint => statusCode == 404 || statusCode == 405;
+  bool get canTryNextWrite => statusCode == 400 || statusCode == 404 || statusCode == 405 || statusCode == 422;
 
   @override
   String toString() => message;
@@ -45,42 +46,42 @@ class ApiClient {
   }
 
   Future<Map<String, dynamic>> getAny(List<String> paths) async {
-    ApiException? lastEndpointError;
+    ApiException? lastError;
     for (final path in paths) {
       try {
         return await get(path);
       } on ApiException catch (e) {
         if (!e.canTryNextEndpoint) rethrow;
-        lastEndpointError = e;
+        lastError = e;
       }
     }
-    throw lastEndpointError ?? const ApiException(404, 'No backend endpoint matched');
+    throw lastError ?? const ApiException(404, 'No backend endpoint matched');
   }
 
   Future<Map<String, dynamic>> postAny(List<MapEntry<String, Map<String, dynamic>>> attempts) async {
-    ApiException? lastEndpointError;
+    ApiException? lastError;
     for (final attempt in attempts) {
       try {
         return await post(attempt.key, attempt.value);
       } on ApiException catch (e) {
-        if (!e.canTryNextEndpoint) rethrow;
-        lastEndpointError = e;
+        if (!e.canTryNextWrite) rethrow;
+        lastError = e;
       }
     }
-    throw lastEndpointError ?? const ApiException(404, 'No backend endpoint matched');
+    throw lastError ?? const ApiException(404, 'No backend endpoint matched');
   }
 
   Future<Map<String, dynamic>> patchAny(List<MapEntry<String, Map<String, dynamic>>> attempts) async {
-    ApiException? lastEndpointError;
+    ApiException? lastError;
     for (final attempt in attempts) {
       try {
         return await patch(attempt.key, attempt.value);
       } on ApiException catch (e) {
-        if (!e.canTryNextEndpoint) rethrow;
-        lastEndpointError = e;
+        if (!e.canTryNextWrite) rethrow;
+        lastError = e;
       }
     }
-    throw lastEndpointError ?? const ApiException(404, 'No backend endpoint matched');
+    throw lastError ?? const ApiException(404, 'No backend endpoint matched');
   }
 
   Map<String, dynamic> decode(http.Response res) {
