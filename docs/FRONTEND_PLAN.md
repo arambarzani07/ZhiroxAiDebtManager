@@ -30,11 +30,17 @@
 - Token persistence
 - Dashboard shell
 
+Status: started on main.
+
 ### F2 — Customer Brain
+- Customer API service
 - Customer list
-- Customer create/edit
-- Customer profile timeline
-- Contacts, guarantors, evidence, status, credit locks
+- Customer create screen
+- Customer profile screen
+- Search and refresh
+- Next: customer edit, contact health, guarantor, evidence, status history, credit locks, merge/duplicate screens
+
+Status: F2A started on main.
 
 ### F3 — Debt and Ledger
 - Debt accounts
@@ -74,4 +80,4 @@
 
 ## Current status
 
-F1 foundation has started on `main`.
+F1 foundation and F2A customer foundation have been added on `main`.
