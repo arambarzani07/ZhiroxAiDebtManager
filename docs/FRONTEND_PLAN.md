@@ -22,6 +22,7 @@
 8. Defer the full build phase until the end. During implementation, continue feature-by-feature coding on `main`; run final build/test only after the planned frontend modules are complete or when a blocking compile issue must be resolved.
 9. Do not leave visible half-features in the app. Any feature that is not fully wired must stay hidden from the UI until it is completed.
 10. Every stage must pass `docs/IMPLEMENTATION_QUALITY_GATE.md` before moving to the next stage.
+11. Keep the UI premium, modern, RTL-friendly, and mobile-first before release.
 
 ## Frontend phases
 
@@ -134,6 +135,7 @@ Status: F8A platform panel foundation added on main after quality gate audit.
 - Login security cleanup
 - Seed credential cleanup
 - Route/session audit
+- UI modernization audit
 - Flutter web/android/ios build
 - Compile fixes
 - Runtime API smoke test
@@ -142,8 +144,8 @@ Status: F8A platform panel foundation added on main after quality gate audit.
 - Customer/debt/payment/cash smoke test
 - Security cleanup and test credential rotation reminder
 
-Status: F9A static audit and login cleanup added on main. Full build still needs a Flutter SDK runner.
+Status: F9A static audit, API alignment, Netlify web alignment, and UI modernization foundation added on main. Full build still needs a Flutter SDK runner.
 
 ## Current status
 
-F1 through F8A are implemented. F9A static audit and security cleanup are recorded on `main`. Full Flutter build remains the next executable release-hardening step in a Flutter SDK environment.
+F1 through F8A are implemented. F9A static audit, security cleanup, API alignment, Netlify web alignment, and premium UI modernization foundation are recorded on `main`. Full Flutter build remains the next executable release-hardening step in a Flutter SDK environment.
