@@ -1,6 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/config/api_config.dart';
 import '../../core/network/api_client.dart';
 
 class AuthService {
@@ -34,7 +33,7 @@ class AuthService {
   Future<Map<String, dynamic>> login({
     required String email,
     required String password,
-    String marketCode = ApiConfig.defaultMarketCode,
+    required String marketCode,
   }) async {
     final data = await _apiClient.post('/auth/login', {
       'email': email.trim(),
