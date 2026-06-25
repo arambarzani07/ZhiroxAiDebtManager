@@ -8,14 +8,17 @@ This audit covers the Flutter frontend structure after F1 through F8A.
 
 - No visible incomplete UI keyword was found by repository search.
 - No direct `market_id` usage was found by repository search.
-- Tenant login now requires an explicit market code from the user.
-- Seeded tenant credentials were removed from the tenant login form.
-- Seeded market code was removed from `ApiConfig`.
+- Tenant login requires an explicit market code from the user.
+- Test values were removed from the tenant login form and `ApiConfig`.
 - Tenant and platform sessions are routed separately by `sessionKind`.
 - API response decoding supports object and list payloads.
-- API client now supports safe endpoint fallback for route-name alignment.
-- Customer, debt, payment, report, and cash services were reviewed and aligned to backend route variants.
+- API client supports endpoint fallback for route-name alignment.
+- Customer, debt, payment, report, cash, Smart Center, and platform services were reviewed and aligned to backend route variants.
 - Each visible module entry opens a real screen or performs a wired action.
+
+## API alignment file
+
+See `docs/API_ALIGNMENT_AUDIT.md` for the pre-build API alignment audit.
 
 ## Build status
 
@@ -28,4 +31,3 @@ The full Flutter build is still assigned to the final release-hardening step. Th
 - Run `flutter build web`.
 - Fix any analyzer or compiler findings.
 - Run a runtime smoke test against the production API.
-- Rotate the shared test credentials before public release.
