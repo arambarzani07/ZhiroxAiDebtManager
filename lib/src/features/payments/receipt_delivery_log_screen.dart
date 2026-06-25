@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../dashboard/dashboard_widgets.dart';
+import 'delivery_status_card.dart';
 import 'payment_service.dart';
 
 class ReceiptDeliveryLogScreen extends StatefulWidget {
@@ -39,15 +40,6 @@ class _ReceiptDeliveryLogScreenState extends State<ReceiptDeliveryLogScreen> {
     }
   }
 
-  String summary(Map<String, dynamic> item) {
-    final parts = <String>[];
-    for (final key in ['channel', 'status', 'recipient', 'sent_at', 'created_at', 'note']) {
-      final value = item[key];
-      if (value != null && value.toString().trim().isNotEmpty) parts.add('$key: $value');
-    }
-    return parts.isEmpty ? item.toString() : parts.join('\n');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +49,7 @@ class _ReceiptDeliveryLogScreenState extends State<ReceiptDeliveryLogScreen> {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            const ZhiroxPanel(child: Text('مێژووی ناردنی پسوولە: WhatsApp / SMS / Email / Print draft.')),
+            const ZhiroxPanel(child: Text('مێژووی ناردنی پسوولە بە شێوەی کارت پیشان دەدرێت.')),
             const SizedBox(height: 14),
             if (loading) const Center(child: Padding(padding: EdgeInsets.all(32), child: CircularProgressIndicator())),
             if (error != null) ZhiroxPanel(child: Text(error!, style: const TextStyle(color: Colors.redAccent))),
@@ -65,7 +57,7 @@ class _ReceiptDeliveryLogScreenState extends State<ReceiptDeliveryLogScreen> {
             for (final item in logs)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: ZhiroxPanel(child: Text(summary(item))),
+                child: DeliveryStatusCard(item: item),
               ),
           ],
         ),
