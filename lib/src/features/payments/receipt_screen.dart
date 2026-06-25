@@ -51,9 +51,16 @@ class _ReceiptScreenState extends State<ReceiptScreen> {
     );
   }
 
-  void showSharePlaceholder() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Print/Share لە قۆناغی release hardening پەیوەست دەکرێت.')),
+  Widget infoRow(String label, String data) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: const TextStyle(color: Colors.white60)),
+          Flexible(child: Text(data, textAlign: TextAlign.left, style: const TextStyle(fontWeight: FontWeight.bold))),
+        ],
+      ),
     );
   }
 
@@ -71,25 +78,25 @@ class _ReceiptScreenState extends State<ReceiptScreen> {
             if (receipt != null)
               ZhiroxPanel(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Text('Zhirox AI Debt', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
-                    const SizedBox(height: 8),
-                    Text('Receipt No: ${value('receipt_number')}'),
-                    Text('Payment ID: ${widget.paymentId}'),
-                    const Divider(height: 28),
-                    Text('Customer: ${value('customer_name')}'),
-                    Text('Amount: ${value('amount')} ${value('currency')}'),
-                    Text('Date: ${value('created_at')}'),
-                    const Divider(height: 28),
+                    const Icon(Icons.receipt_long_rounded, size: 42),
+                    const SizedBox(height: 12),
+                    const Text('Zhirox AI Debt', textAlign: TextAlign.center, style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900)),
+                    const Text('پسوولەی پارەدان', textAlign: TextAlign.center, style: TextStyle(color: Colors.white60)),
+                    const Divider(height: 32),
+                    infoRow('ژمارەی پسوولە', value('receipt_number')),
+                    infoRow('Payment ID', widget.paymentId),
+                    infoRow('کڕیار', value('customer_name')),
+                    infoRow('بڕ', '${value('amount')} ${value('currency')}'),
+                    infoRow('بەروار', value('created_at')),
+                    const Divider(height: 32),
                     Text(receipt.toString(), style: const TextStyle(color: Colors.white54, fontSize: 12)),
                   ],
                 ),
               ),
             const SizedBox(height: 14),
-            FilledButton.icon(onPressed: openDeliveryLog, icon: const Icon(Icons.mark_email_read_rounded), label: const Text('Receipt Delivery Log')),
-            const SizedBox(height: 10),
-            OutlinedButton.icon(onPressed: showSharePlaceholder, icon: const Icon(Icons.print_rounded), label: const Text('Print / Share Placeholder')),
+            FilledButton.icon(onPressed: openDeliveryLog, icon: const Icon(Icons.mark_email_read_rounded), label: const Text('Delivery Log')),
           ],
         ),
       ),
