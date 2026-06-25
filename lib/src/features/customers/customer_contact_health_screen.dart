@@ -54,30 +54,41 @@ class _CustomerContactHealthScreenState extends State<CustomerContactHealthScree
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Contact Health')),
-      body: RefreshIndicator(
-        onRefresh: load,
-        child: ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            if (loading) const Center(child: Padding(padding: EdgeInsets.all(32), child: CircularProgressIndicator())),
-            if (error != null) ZhiroxPanel(child: Text(error!, style: const TextStyle(color: Colors.redAccent))),
-            if (health != null)
-              ZhiroxPanel(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      body: ZhiroxBackground(
+        child: RefreshIndicator(
+          onRefresh: load,
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(20, 18, 20, 32),
+            children: [
+              const SectionTitle(title: 'Contact Health', subtitle: 'هەڵسەنگاندنی ژمارە و توانای پەیوەندی بە کڕیار'),
+              if (loading) const Center(child: Padding(padding: EdgeInsets.all(32), child: CircularProgressIndicator())),
+              if (error != null) FriendlyErrorPanel(message: error!, onRetry: load),
+              if (!loading && error == null && health == null) const ZhiroxPanel(child: Text('زانیاری پەیوەندی بەردەست نییە.')),
+              if (health != null) ...[
+                Row(
                   children: [
-                    const Text('هەڵسەنگاندنی پەیوەندی', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
-                    const SizedBox(height: 12),
-                    Text('Score: ${value('score')}'),
-                    Text('Verified: ${value('verified_contacts_count')}'),
-                    Text('Weak: ${value('weak_contacts_count')}'),
-                    Text('Last contact: ${value('last_contact_at')}'),
-                    const SizedBox(height: 12),
-                    Text(health.toString(), style: const TextStyle(color: Colors.white60)),
+                    Expanded(child: MetricCard(title: 'Score', value: value('score'), subtitle: 'contact quality', icon: Icons.health_and_safety_rounded)),
+                    const SizedBox(width: 10),
+                    Expanded(child: MetricCard(title: 'Verified', value: value('verified_contacts_count'), subtitle: 'پەیوەندی پشتڕاست', icon: Icons.verified_rounded)),
                   ],
                 ),
-              ),
-          ],
+                const SizedBox(height: 12),
+                ZhiroxPanel(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('وردەکاری', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
+                      const SizedBox(height: 12),
+                      Text('Weak: ${value('weak_contacts_count')}'),
+                      Text('Last contact: ${value('last_contact_at')}'),
+                      const SizedBox(height: 12),
+                      Text(health.toString(), style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
+                    ],
+                  ),
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );
