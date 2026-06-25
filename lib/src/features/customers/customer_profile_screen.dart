@@ -4,6 +4,8 @@ import '../dashboard/dashboard_widgets.dart';
 import '../debt/customer_debt_timeline_screen.dart';
 import '../debt/debt_service.dart';
 import '../debt/give_debt_screen.dart';
+import '../payments/customer_statement_screen.dart';
+import '../payments/payment_service.dart';
 import 'customer_action_form_screen.dart';
 import 'customer_contact_health_screen.dart';
 import 'customer_credit_limit_screen.dart';
@@ -36,6 +38,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
 
   String get id => customerId(widget.customer);
   DebtService get debtService => DebtService(widget.customerService.apiClient);
+  PaymentService get paymentService => PaymentService(widget.customerService.apiClient);
 
   Future<void> load() async {
     if (id.isEmpty) {
@@ -147,6 +150,11 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     onTap: () => openScreen(CustomerDebtTimelineScreen(customer: widget.customer, debtService: debtService)),
                   ),
                   _ActionButton(title: 'دانانی قەرزی نوێ', icon: Icons.add_card_rounded, onTap: openGiveDebt),
+                  _ActionButton(
+                    title: 'Statement ـی کڕیار',
+                    icon: Icons.description_rounded,
+                    onTap: () => openScreen(CustomerStatementScreen(customer: widget.customer, paymentService: paymentService)),
+                  ),
                 ],
               ),
             ),
