@@ -6,11 +6,7 @@ class CashService {
   final ApiClient _apiClient;
 
   List<Map<String, dynamic>> _listFrom(Map<String, dynamic> data) {
-    final raw = data['data'] ?? data['items'] ?? data['records'] ?? data['sessions'] ?? data['handovers'] ?? data['discrepancies'] ?? [];
-    if (raw is List) {
-      return raw.whereType<Map>().map((item) => Map<String, dynamic>.from(item)).toList();
-    }
-    return [];
+    return _apiClient.listFrom(data, ['data', 'items', 'records', 'sessions', 'handovers', 'discrepancies']);
   }
 
   Future<Map<String, dynamic>> getCurrentSession() {
