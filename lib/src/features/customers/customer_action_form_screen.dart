@@ -3,12 +3,7 @@ import 'package:flutter/material.dart';
 import '../dashboard/dashboard_widgets.dart';
 
 class CustomerActionFormScreen extends StatefulWidget {
-  const CustomerActionFormScreen({
-    super.key,
-    required this.title,
-    required this.fields,
-    required this.onSubmit,
-  });
+  const CustomerActionFormScreen({super.key, required this.title, required this.fields, required this.onSubmit});
 
   final String title;
   final List<CustomerActionField> fields;
@@ -80,31 +75,30 @@ class _CustomerActionFormScreenState extends State<CustomerActionFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          ZhiroxPanel(
-            child: Column(
-              children: [
-                for (final field in widget.fields) ...[
-                  TextField(
-                    controller: controllers[field.keyName],
-                    maxLines: field.maxLines,
-                    decoration: InputDecoration(labelText: field.required ? '${field.label} *' : field.label),
+      body: ZhiroxBackground(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 32),
+          children: [
+            SectionTitle(title: widget.title, subtitle: 'زانیارییەکان بە شێوەی سەلامەت بۆ backend دەنێردرێن'),
+            ZhiroxPanel(
+              child: Column(
+                children: [
+                  for (final field in widget.fields) ...[
+                    TextField(controller: controllers[field.keyName], maxLines: field.maxLines, decoration: InputDecoration(labelText: field.required ? '${field.label} *' : field.label)),
+                    const SizedBox(height: 14),
+                  ],
+                  if (error != null) FriendlyErrorPanel(message: error!),
+                  const SizedBox(height: 18),
+                  FilledButton.icon(
+                    onPressed: loading ? null : save,
+                    icon: loading ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.save_rounded),
+                    label: const Text('پاشەکەوتکردن'),
                   ),
-                  const SizedBox(height: 14),
                 ],
-                if (error != null) Text(error!, style: const TextStyle(color: Colors.redAccent)),
-                const SizedBox(height: 18),
-                FilledButton.icon(
-                  onPressed: loading ? null : save,
-                  icon: loading ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.save_rounded),
-                  label: const Text('پاشەکەوتکردن'),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
