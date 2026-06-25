@@ -16,7 +16,7 @@ Before the build step, frontend service calls were reviewed against the expected
 8. Test values were removed from visible login and config files.
 9. Frontend code does not send `market_id`.
 10. Money form values are submitted as text.
-11. Write calls now retry alternate payload field names on 400 and 422 as well as route mismatch statuses.
+11. Write calls retry alternate payload field names on 400 and 422 as well as route mismatch statuses.
 12. Debt payloads support `amount`, `principal_amount`, and `total_amount` style fields.
 13. Payment payloads support `amount` and `paid_amount` style fields.
 14. Cash payloads support opening, closing, handover, and discrepancy field aliases.
@@ -24,8 +24,10 @@ Before the build step, frontend service calls were reviewed against the expected
 16. Customer create and edit payloads support multiple name and phone field names.
 17. Customer action forms validate required fields before sending data.
 18. Optional customer action notes do not send empty strings.
-19. API client reads nested list envelopes from common response wrapper keys.
-20. Debt, payment, cash, report, Smart Center, and platform services use the shared list parser.
+19. API helpers read wrapped object and list envelopes.
+20. Customer and debt display helpers read wrapped database rows.
+21. Debt case IDs support `id`, `debt_case_id`, `case_id`, `debt_id`, `uuid`, and `_id`.
+22. Payment creation reads payment ID from direct, nested `data`, or nested `payment` response objects.
 
 ## Note
 
