@@ -34,6 +34,10 @@ class _CustomerDuplicateMergeScreenState extends State<CustomerDuplicateMergeScr
       });
       return;
     }
+    setState(() {
+      loading = true;
+      error = null;
+    });
     try {
       final data = await widget.customerService.findDuplicates(id);
       setState(() => records = data);
@@ -48,12 +52,11 @@ class _CustomerDuplicateMergeScreenState extends State<CustomerDuplicateMergeScr
     final sourceId = customerId(widget.customer);
     final targetId = customerId(record);
     if (sourceId.isEmpty || targetId.isEmpty) return;
-    await widget.customerService.requestMerge(sourceId, {
-      'target_customer_id': targetId,
-      'reason': 'similar customer profile',
-    });
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('داواکاری نێردرا')));
+    try {
+      await widget.customerService.requestMerge(sourceId, {'target_customer_id': targetId, 'reason': 'similar customer profile'});
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('داواکاری نێردرا')));
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
@@ -61,37 +64,36 @@ class _CustomerDuplicateMergeScreenState extends State<CustomerDuplicateMergeScr
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Duplicate Review')),
-      body: RefreshIndicator(
-        onRefresh: load,
-        child: ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            const ZhiroxPanel(child: Text('ئەم بەشە تەنها داواکاری پێداچوونەوە دەنێرێت.')),
-            const SizedBox(height: 14),
-            if (loading) const Center(child: Padding(padding: EdgeInsets.all(32), child: CircularProgressIndicator())),
-            if (error != null) ZhiroxPanel(child: Text(error!, style: const TextStyle(color: Colors.redAccent))),
-            if (!loading && error == null && records.isEmpty) const ZhiroxPanel(child: Text('هیچ تۆماری هاوشێوە نەدۆزرایەوە.')),
-            for (final record in records)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: ZhiroxPanel(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(customerDisplayName(record), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 6),
-                      Text(customerPhone(record), style: const TextStyle(color: Colors.white70)),
-                      const SizedBox(height: 12),
-                      OutlinedButton.icon(
-                        onPressed: () => sendRequest(record),
-                        icon: const Icon(Icons.compare_arrows_rounded),
-                        label: const Text('ناردنی داواکاری'),
-                      ),
-                    ],
+      body: ZhiroxBackground(
+        child: RefreshIndicator(
+          onRefresh: load,
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(20, 18, 20, 32),
+            children: [
+              const SectionTitle(title: 'Duplicate Review', subtitle: 'دۆزینەوەی کڕیاری هاوشێوە و داواکاری merge'),
+              const ZhiroxPanel(child: Text('ئەم بەشە تەنها داواکاری پێداچوونەوە دەنێرێت؛ merge بە approval دەکرێت.')),
+              const SizedBox(height: 14),
+              if (loading) const Center(child: Padding(padding: EdgeInsets.all(32), child: CircularProgressIndicator())),
+              if (error != null) FriendlyErrorPanel(message: error!, onRetry: load),
+              if (!loading && error == null && records.isEmpty) const ZhiroxPanel(child: Text('هیچ تۆماری هاوشێوە نەدۆزرایەوە.')),
+              for (final record in records)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: ZhiroxPanel(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(customerDisplayName(record), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 6),
+                        Text(customerPhone(record), style: const TextStyle(color: Color(0xFF94A3B8))),
+                        const SizedBox(height: 12),
+                        OutlinedButton.icon(onPressed: () => sendRequest(record), icon: const Icon(Icons.compare_arrows_rounded), label: const Text('ناردنی داواکاری')),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
